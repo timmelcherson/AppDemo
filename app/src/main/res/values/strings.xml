@@ -5,5 +5,8 @@
     <string name="image_item_hand_drawn_title">Choose hand drawing</string>
     <string name="image_item_emergency_title">Choose emergency image</string>
 
+    <string name="overlay_dialog_initial_message">Click on image to add point</string>
+    <string name="overlay_dialog_save_button_text">Save</string>
+
 
 </resources>

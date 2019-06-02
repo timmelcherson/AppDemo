@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/red_blank"
+        android:icon="@drawable/image_marker_red_blank"
+        android:title="Red Blank" />
+
+    <item
+        android:id="@+id/red_cross"
+        android:icon="@drawable/image_marker_red_cross"
+        android:title="Red Cross" />
+
+    <item
+        android:id="@+id/blue_blank"
+        android:icon="@drawable/image_marker_blue_blank"
+        android:title="Blue Blank" />
+
+    <item
+        android:id="@+id/blue_cross"
+        android:icon="@drawable/image_marker_blue_cross"
+        android:title="Blue Cross" />
+
+    <item
+        android:id="@+id/green_blank"
+        android:icon="@drawable/image_marker_green_blank"
+        android:title="Green Blank" />
+
+    <item
+        android:id="@+id/green_cross"
+        android:icon="@drawable/image_marker_green_cross"
+        android:title="Green Cross" />
+</menu>

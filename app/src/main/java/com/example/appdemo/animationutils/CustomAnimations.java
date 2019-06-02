@@ -1,6 +1,7 @@
 package com.example.appdemo.animationutils;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
@@ -38,5 +39,33 @@ public class CustomAnimations {
         // make the view visible and start the animation
         view.setVisibility(View.VISIBLE);
         circularReveal.start();
+    }
+
+    public static void fadeInView(final View view) {
+        view.setVisibility(View.VISIBLE);
+        view.animate()
+                .setDuration(200)
+                .alpha(1.0f)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        view.clearAnimation();
+
+                    }
+                });
+
+    }
+    public static void fadeOutView(final View view) {
+        view.animate()
+                .setDuration(200)
+                .alpha(0.0f)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        view.setVisibility(View.GONE);
+                    }
+                });
     }
 }
