@@ -28,7 +28,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />-->
 
-    <com.ramotion.circlemenu.CircleMenuView
+    <!--<com.ramotion.circlemenu.CircleMenuView
         android:id="@+id/main_circle_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,8 +37,39 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">-->
+
+    <!--<com.linroid.filtermenu.library.FilterMenuLayout
+        android:id="@+id/filter_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="8dp"
+        custom:fm_expandedRadius="96dp"
+        custom:fm_collapsedRadius="24dp"
+        custom:fm_centerBottom="50dp"
+        custom:fm_centerRight="50dp"
+        custom:fm_primaryColor="#ff37aa4a"
+        custom:fm_primaryDarkColor="#ff20622b">
+    </com.linroid.filtermenu.library.FilterMenuLayout>-->
+
+    <com.linroid.filtermenu.library.FilterMenuLayout
+        android:id="@+id/filter_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:fm_expandedRadius="120dp"
+        app:fm_collapsedRadius="30dp"
+        app:fm_primaryColor="#6bb9f0"
+        app:fm_primaryDarkColor="#013243"
+        app:fm_centerVertical="true"
+        app:fm_centerHorizontal="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </com.ramotion.circlemenu.CircleMenuView>
+    </com.linroid.filtermenu.library.FilterMenuLayout>
+
+
+<!--</com.ramotion.circlemenu.CircleMenuView>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

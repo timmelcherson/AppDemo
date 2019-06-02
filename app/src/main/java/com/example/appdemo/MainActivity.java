@@ -5,32 +5,71 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.appdemo.animationutils.CustomAnimations;
+import com.linroid.filtermenu.library.FilterMenu;
+import com.linroid.filtermenu.library.FilterMenuLayout;
 import com.ramotion.circlemenu.CircleMenuView;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "TAG";
     private CircleMenuView mCircleMenuView;
+    private CustomAnimations mCustomAnimations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mCircleMenuView = findViewById(R.id.main_circle_menu);
+//        mCircleMenuView = findViewById(R.id.main_circle_menu);
+        mCustomAnimations = new CustomAnimations();
 
-        circleMenuListener();
+//        circleMenuListener();
+        FilterMenuLayout layout = (FilterMenuLayout) findViewById(R.id.filter_menu);
+        FilterMenu menu = new FilterMenu.Builder(this)
+                .inflate(R.menu.filter_menu_items)//inflate  menu resource
+                .attach(layout)
+                .withListener(new FilterMenu.OnMenuChangeListener() {
+                    @Override
+                    public void onMenuItemClick(View view, int position) {
+                        Log.d(TAG, "onButtonClickAnimationEnd| index: " + position);
+                        switch (position) {
+                            case 0:
+//                                mCustomAnimations.presentActivity(MainActivity.this, ImagePickerActivity.class, view);
+                                Intent intent = new Intent(MainActivity.this, ImagePickerActivity.class);
+                                startActivity(intent);
+                                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                                break;
+
+                            case 1:
+                                Toast.makeText(MainActivity.this, "Index 1", Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onMenuCollapse() {
+                        Log.d(TAG, "onMenuCollapse: ");
+                    }
+
+                    @Override
+                    public void onMenuExpand() {
+                        Log.d(TAG, "onMenuExpand: ");
+                    }
+                })
+                .build();
     }
 
 
     private void circleMenuListener() {
-        mCircleMenuView.setEventListener(new CircleMenuView.EventListener(){
+        mCircleMenuView.setEventListener(new CircleMenuView.EventListener() {
             @Override
             public void onMenuOpenAnimationStart(@NonNull CircleMenuView view) {
                 Log.d(TAG, "onMenuOpenAnimationStart");
@@ -59,12 +98,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onButtonClickAnimationEnd(@NonNull CircleMenuView view, int index) {
                 Log.d(TAG, "onButtonClickAnimationEnd| index: " + index);
-
                 switch (index) {
                     case 0:
 //                        Intent intent = new Intent(MainActivity.this, ImagePickerActivity.class);
 //                        startActivity(intent);
-                        presentActivity(view);
+                        mCustomAnimations.presentActivity(MainActivity.this, ImagePickerActivity.class, view);
                         break;
 
                     case 1:
@@ -75,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void presentActivity(View view) {
+    /*public void presentActivity(View view) {
         ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation(this, view, "transition");
         int revealX = (int) (view.getX() + view.getWidth() / 2);
@@ -86,6 +124,6 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(ImagePickerActivity.EXTRA_CIRCULAR_REVEAL_Y, revealY);
 
         ActivityCompat.startActivity(this, intent, options.toBundle());
-    }
+    }*/
 
 }

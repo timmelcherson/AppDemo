@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Demo App</string>
 
+    <string name="image_item_blueprint_title">Choose a blueprint</string>
+    <string name="image_item_hand_drawn_title">Choose hand drawing</string>
+    <string name="image_item_emergency_title">Choose emergency image</string>
+
+
 </resources>

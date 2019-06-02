@@ -1,94 +1,97 @@
 package com.example.appdemo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewTreeObserver;
-import android.view.animation.AccelerateInterpolator;
+import android.widget.Toast;
 
-public class ImagePickerActivity extends AppCompatActivity {
+import com.example.appdemo.animationutils.CustomAnimations;
 
-    public static final String EXTRA_CIRCULAR_REVEAL_X = "EXTRA_CIRCULAR_REVEAL_X";
-    public static final String EXTRA_CIRCULAR_REVEAL_Y = "EXTRA_CIRCULAR_REVEAL_Y";
+import java.util.ArrayList;
+import java.util.List;
 
-    View rootLayout;
+import static com.example.appdemo.utils.Constants.EXTRA_CIRCULAR_REVEAL_X;
+import static com.example.appdemo.utils.Constants.EXTRA_CIRCULAR_REVEAL_Y;
 
-    private int revealX;
-    private int revealY;
+public class ImagePickerActivity extends AppCompatActivity implements ImagePickerRecyclerAdapter.OnImageItemsItemListener{
+
+    public static final String TAG = "TAG";
+
+    private CustomAnimations mCustomAnimations;
+    private View rootLayout;
+    private RecyclerView mRecyclerView;
+
+    private List<ImageItem> mItemList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_picker);
 
-        final Intent intent = getIntent();
 
         rootLayout = findViewById(R.id.image_picker_layout);
+        mRecyclerView = findViewById(R.id.image_item_recycler_view);
 
-        if (savedInstanceState == null &&
-                intent.hasExtra(EXTRA_CIRCULAR_REVEAL_X) &&
-                intent.hasExtra(EXTRA_CIRCULAR_REVEAL_Y)) {
+        mCustomAnimations = new CustomAnimations();
 
+        mItemList.add(new ImageItem(R.drawable.blueprint_1, getString(R.string.image_item_blueprint_title)));
+        mItemList.add(new ImageItem(R.drawable.handdrawn_1, getString(R.string.image_item_hand_drawn_title)));
+        mItemList.add(new ImageItem(R.drawable.emergency_1, getString(R.string.image_item_emergency_title)));
+        Log.d(TAG, "onCreate: list is this size: " + mItemList.size());
+
+        if (savedInstanceState == null) {
+//            getIncomingIntent();
+        }
+        buildRecyclerView();
+
+    }
+
+    private void getIncomingIntent() {
+
+        Intent intent = getIntent();
+
+        if (intent.hasExtra(EXTRA_CIRCULAR_REVEAL_X) && intent.hasExtra(EXTRA_CIRCULAR_REVEAL_Y)) {
             rootLayout.setVisibility(View.INVISIBLE);
 
-            revealX = intent.getIntExtra(EXTRA_CIRCULAR_REVEAL_X, 0);
-            revealY = intent.getIntExtra(EXTRA_CIRCULAR_REVEAL_Y, 0);
-
+            final int revealX = intent.getIntExtra(EXTRA_CIRCULAR_REVEAL_X, 0);
+            final int revealY = intent.getIntExtra(EXTRA_CIRCULAR_REVEAL_Y, 0);
 
             ViewTreeObserver viewTreeObserver = rootLayout.getViewTreeObserver();
             if (viewTreeObserver.isAlive()) {
                 viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        revealActivity(revealX, revealY);
+                        mCustomAnimations.revealActivity(revealX, revealY, rootLayout);
                         rootLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     }
                 });
             }
-
-        } else {
-            rootLayout.setVisibility(View.VISIBLE);
         }
     }
 
-    protected void revealActivity(int x, int y) {
-
-        float finalRadius = (float) (Math.max(rootLayout.getWidth(), rootLayout.getHeight()) * 1.1);
-
-        // create the animator for this view (the start radius is zero)
-        Animator circularReveal = ViewAnimationUtils.createCircularReveal(rootLayout, x, y, 0, finalRadius);
-        circularReveal.setDuration(200);
-        circularReveal.setInterpolator(new AccelerateInterpolator());
-
-        // make the view visible and start the animation
-        rootLayout.setVisibility(View.VISIBLE);
-        circularReveal.start();
-
+    private void buildRecyclerView() {
+        LinearLayoutManager lm = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(lm);
+        ImagePickerRecyclerAdapter adapter = new ImagePickerRecyclerAdapter(mItemList, this);
+        mRecyclerView.setAdapter(adapter);
     }
 
-    protected void unRevealActivity() {
+    @Override
+    public void onItemClick(int position) {
 
-        float finalRadius = (float) (Math.max(rootLayout.getWidth(), rootLayout.getHeight()) * 1.1);
-        Animator circularReveal = ViewAnimationUtils.createCircularReveal(
-                rootLayout, revealX, revealY, finalRadius, 0);
+        Toast.makeText(this, "Clicked card of: " + mItemList.get(position), Toast.LENGTH_SHORT).show();
 
-        circularReveal.setDuration(200);
-        circularReveal.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                rootLayout.setVisibility(View.INVISIBLE);
-                finish();
-            }
-        });
+        // TODO: Start intent with intended image type and start creating the overlay thing
 
+        switch (position) {
 
-        circularReveal.start();
-
+        }
     }
+
 }
