@@ -12,6 +12,7 @@ import android.view.ViewTreeObserver;
 import android.widget.Toast;
 
 import com.example.appdemo.animationutils.CustomAnimations;
+import com.example.appdemo.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +42,8 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
         mCustomAnimations = new CustomAnimations();
 
         mItemList.add(new ImageItem(R.drawable.blueprint_1, getString(R.string.image_item_blueprint_title)));
-        mItemList.add(new ImageItem(R.drawable.handdrawn_1, getString(R.string.image_item_hand_drawn_title)));
-        mItemList.add(new ImageItem(R.drawable.emergency_1, getString(R.string.image_item_emergency_title)));
+        mItemList.add(new ImageItem(R.drawable.hand_draw_1, getString(R.string.image_item_hand_drawn_title)));
+        mItemList.add(new ImageItem(R.drawable.emergency, getString(R.string.image_item_emergency_title)));
         Log.d(TAG, "onCreate: list is this size: " + mItemList.size());
 
         if (savedInstanceState == null) {
@@ -85,13 +86,23 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
     @Override
     public void onItemClick(int position) {
 
-        Toast.makeText(this, "Clicked card of: " + mItemList.get(position), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, AddOverlayActivity.class);
+        intent.putExtra(Constants.ADD_OVERLAY_INTENT_KEY, mItemList.get(position).getImageResource());
+        Log.d(TAG, "sending int: " + mItemList.get(position).getImageResource());
+        startActivity(intent);
 
-        // TODO: Start intent with intended image type and start creating the overlay thing
-
-        switch (position) {
-
-        }
+//        switch (position) {
+//
+//            case 0:
+//                intent.putExtra(Constants.ADD_OVERLAY_INTENT_BLUEPRINT, mItemList.get(position).getImageResource());
+//                break;
+//            case 1:
+//                intent.putExtra(Constants.ADD_OVERLAY_INTENT_HAND_DRAWING, mItemList.get(position).getImageResource());
+//                break;
+//            case 2:
+//                intent.putExtra(Constants.ADD_OVERLAY_INTENT_EMERGENCY, mItemList.get(position).getImageResource());
+//                break;
+//        }
     }
 
 }
