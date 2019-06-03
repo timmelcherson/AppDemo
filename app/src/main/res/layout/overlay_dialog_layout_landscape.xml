@@ -42,7 +42,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:background="#AA000000"
+        android:background="#CC000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/overlay_dialog_inner_container">
 

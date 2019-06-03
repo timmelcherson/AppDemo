@@ -17,11 +17,14 @@ import com.linroid.filtermenu.library.FilterMenu;
 import com.linroid.filtermenu.library.FilterMenuLayout;
 import com.ramotion.circlemenu.CircleMenuView;
 
+import static com.example.appdemo.animationutils.CustomAnimations.fadeOutView;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "TAG";
     private CircleMenuView mCircleMenuView;
     private CustomAnimations mCustomAnimations;
+    private FilterMenuLayout mLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
         mCustomAnimations = new CustomAnimations();
 
 //        circleMenuListener();
-        FilterMenuLayout layout = (FilterMenuLayout) findViewById(R.id.filter_menu);
-        FilterMenu menu = new FilterMenu.Builder(this)
+        mLayout = (FilterMenuLayout) findViewById(R.id.filter_menu);
+        final FilterMenu menu = new FilterMenu.Builder(this)
                 .inflate(R.menu.filter_menu_items)//inflate  menu resource
-                .attach(layout)
+                .attach(mLayout)
                 .withListener(new FilterMenu.OnMenuChangeListener() {
                     @Override
                     public void onMenuItemClick(View view, int position) {
@@ -46,16 +49,19 @@ public class MainActivity extends AppCompatActivity {
                                 Intent intent = new Intent(MainActivity.this, ImagePickerActivity.class);
                                 startActivity(intent);
                                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                                mLayout.setVisibility(View.GONE);
                                 break;
 
                             case 1:
-                                Toast.makeText(MainActivity.this, "Index 1", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "Take a photo", Toast.LENGTH_SHORT).show();
                                 break;
                         }
+
                     }
 
                     @Override
                     public void onMenuCollapse() {
+
                         Log.d(TAG, "onMenuCollapse: ");
                     }
 
@@ -67,6 +73,11 @@ public class MainActivity extends AppCompatActivity {
                 .build();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mLayout.setVisibility(View.VISIBLE);
+    }
 
     private void circleMenuListener() {
         mCircleMenuView.setEventListener(new CircleMenuView.EventListener() {
@@ -113,17 +124,5 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /*public void presentActivity(View view) {
-        ActivityOptionsCompat options = ActivityOptionsCompat.
-                makeSceneTransitionAnimation(this, view, "transition");
-        int revealX = (int) (view.getX() + view.getWidth() / 2);
-        int revealY = (int) (view.getY() + view.getHeight() / 2);
-
-        Intent intent = new Intent(this, ImagePickerActivity.class);
-        intent.putExtra(ImagePickerActivity.EXTRA_CIRCULAR_REVEAL_X, revealX);
-        intent.putExtra(ImagePickerActivity.EXTRA_CIRCULAR_REVEAL_Y, revealY);
-
-        ActivityCompat.startActivity(this, intent, options.toBundle());
-    }*/
 
 }

@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.appdemo.animationutils.CustomAnimations;
 import com.linroid.filtermenu.library.FilterMenu;
@@ -29,8 +30,12 @@ import com.linroid.filtermenu.library.FilterMenuLayout;
 
 import org.w3c.dom.Text;
 
+import java.util.UUID;
+
 import static com.example.appdemo.animationutils.CustomAnimations.fadeInView;
 import static com.example.appdemo.animationutils.CustomAnimations.fadeOutView;
+import static com.example.appdemo.utils.Constants.MARKER_INFO_DIALOG_EXTRA_UUID;
+import static com.example.appdemo.utils.Constants.MARKER_INFO_DIALOG_TAG;
 import static com.example.appdemo.utils.Constants.OVERLAY_DIALOG_EXTRA_IMAGE_HEIGHT;
 import static com.example.appdemo.utils.Constants.OVERLAY_DIALOG_EXTRA_IMAGE_WIDTH;
 
@@ -39,7 +44,7 @@ public class OverlayDialog extends DialogFragment implements View.OnClickListene
     public static final String TAG = "TAG";
 
     private int mImageWidth, mImageHeight, mScreenOrientation, xCoord, yCoord;
-    private int mPointRadius = 60;
+    private int mMarkerRadius = 60;
 
     private FrameLayout mImageOverlay;
     private ImageView mCloseDialogButton;
@@ -85,6 +90,8 @@ public class OverlayDialog extends DialogFragment implements View.OnClickListene
         Log.d(TAG, "onCreateView: inner overlay width: " + mImageOverlay.getWidth() + " and measured ?? width: " + mImageOverlay.getMeasuredWidth());
         return view;
     }
+    private UUID uuid;
+    private ImageView marker;
 
     private void initializeViews(View view) {
         mCloseDialogButton = view.findViewById(R.id.overlay_dialog_close);
@@ -114,39 +121,51 @@ public class OverlayDialog extends DialogFragment implements View.OnClickListene
                     @Override
                     public void onMenuItemClick(View view, int position) {
 
-                        ImageView img = new ImageView(getActivity());
+                        marker = new ImageView(getActivity());
 
                         switch (position) {
                             case 0:
-                                img.setImageResource(R.drawable.image_marker_red_blank);
+                                marker.setImageResource(R.drawable.image_marker_red_blank);
                                 break;
                             case 1:
-                                img.setImageResource(R.drawable.image_marker_red_cross);
+                                marker.setImageResource(R.drawable.image_marker_red_cross);
                                 break;
                             case 2:
-                                img.setImageResource(R.drawable.image_marker_blue_blank);
+                                marker.setImageResource(R.drawable.image_marker_blue_blank);
                                 break;
                             case 3:
-                                img.setImageResource(R.drawable.image_marker_blue_cross);
+                                marker.setImageResource(R.drawable.image_marker_blue_cross);
                                 break;
                             case 4:
-                                img.setImageResource(R.drawable.image_marker_green_blank);
+                                marker.setImageResource(R.drawable.image_marker_green_blank);
                                 break;
                             case 5:
-                                img.setImageResource(R.drawable.image_marker_green_cross);
+                                marker.setImageResource(R.drawable.image_marker_green_cross);
                                 break;
                         }
 
                         Log.d(TAG, "onMenuItemClick: xCoord: " + xCoord + " y-coord: " + yCoord);
 
-                        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mPointRadius, mPointRadius);
-                        params.leftMargin = xCoord - (mPointRadius / 2);
-                        params.topMargin = yCoord - (mPointRadius / 2);
-//                        img.setLeft(xCoord - (dim / 2));
-//                        img.setTop(yCoord - (dim / 2));
-                        mImageOverlay.addView(img, params);
-                        Log.d(TAG, "image width: " + img.getWidth() + " img height: " + img.getHeight());
-                        Log.d(TAG, "img left: " + img.getLeft() + " img top: " + img.getTop());
+                        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mMarkerRadius, mMarkerRadius);
+                        params.leftMargin = xCoord - (mMarkerRadius / 2);
+                        params.topMargin = yCoord - (mMarkerRadius / 2);
+                        mImageOverlay.addView(marker, params);
+                        uuid = UUID.randomUUID();
+                        marker.setTag(uuid);
+                        marker.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                MarkerInfoDialog dialog = new MarkerInfoDialog();
+                                Bundle b = new Bundle();
+                                b.putString(MARKER_INFO_DIALOG_EXTRA_UUID, marker.getTag().toString());
+                                dialog.setArguments(b);
+                                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                                dialog.show(ft, MARKER_INFO_DIALOG_TAG);
+                            }
+                        });
+                        Log.d(TAG, "image UUID: " + marker.getTag());
+                        Log.d(TAG, "image width: " + marker.getWidth() + " marker height: " + marker.getHeight());
+                        Log.d(TAG, "marker left: " + marker.getLeft() + " marker top: " + marker.getTop());
                     }
 
                     @Override

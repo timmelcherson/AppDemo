@@ -14,4 +14,7 @@ public class Constants {
     public static final String OVERLAY_DIALOG_EXTRA_IMAGE_HEIGHT = "OVERLAY_DIALOG_EXTRA_IMAGE_HEIGHT";
     public static final String OVERLAY_DIALOG_TAG = "OVERLAY_DIALOG_TAG";
 
+    public static final String MARKER_INFO_DIALOG_EXTRA_UUID = "MARKER_INFO_DIALOG_EXTRA_UUID";
+    public static final String MARKER_INFO_DIALOG_TAG = "MARKER_INFO_DIALOG_TAG";
+
 }

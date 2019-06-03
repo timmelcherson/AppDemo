@@ -4,10 +4,10 @@
     <item
         android:id="@+id/pick_image"
         android:icon="@drawable/ic_image_white"
-        android:title="Pick Image" />
+        android:title="Gall" />
 
     <item
         android:id="@+id/add_something"
-        android:icon="@drawable/ic_add"
-        android:title="Add Something" />
+        android:icon="@drawable/ic_photo_camera"
+        android:title="Camera" />
 </menu>

@@ -8,5 +8,16 @@
     <string name="overlay_dialog_initial_message">Click on image to add point</string>
     <string name="overlay_dialog_save_button_text">Save</string>
 
+    <string name="marker_info_material_type_title">Type of material</string>
+    <string-array name="marker_info_material_types">
+        <item name="isolant">Isolant</item>
+        <item name="panneau">Panneau</item>
+        <item name="revetement_dur">Revêtement dur</item>
+        <item name="plaque_ondulee">Plaque Ondulée</item>
+    </string-array>
+    <string name="marker_info_description_title">Add a description</string>
+    <string name="marker_info_sample_taken_title">Sample taken</string>
+    <string name="marker_info_sample_number_title">Sample number:</string>
+
 
 </resources>
