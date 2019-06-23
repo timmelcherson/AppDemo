@@ -28,4 +28,5 @@ dependencies {
 
     implementation 'com.ramotion.circlemenu:circle-menu:0.3.2'
     implementation 'com.linroid.filtermenu:library:0.2.+@aar'
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 }

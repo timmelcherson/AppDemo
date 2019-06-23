@@ -1,12 +1,12 @@
-package com.example.appdemo;
+package com.example.appdemo.itempickerpage;
 
-public class ImageItem {
+public class ItemPickerCard {
 
 
     private int mImageResource;
     private String mText;
 
-    public ImageItem(int imageResource, String text) {
+    public ItemPickerCard(int imageResource, String text) {
         mText = text;
         mImageResource = imageResource;
     }

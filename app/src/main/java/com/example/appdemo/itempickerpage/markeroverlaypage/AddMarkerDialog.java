@@ -1,7 +1,6 @@
-package com.example.appdemo;
+package com.example.appdemo.itempickerpage.markeroverlaypage;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -11,9 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -24,28 +21,26 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.appdemo.animationutils.CustomAnimations;
+import com.example.appdemo.R;
 import com.linroid.filtermenu.library.FilterMenu;
 import com.linroid.filtermenu.library.FilterMenuLayout;
-
-import org.w3c.dom.Text;
 
 import java.util.UUID;
 
 import static com.example.appdemo.animationutils.CustomAnimations.fadeInView;
-import static com.example.appdemo.animationutils.CustomAnimations.fadeOutView;
 import static com.example.appdemo.utils.Constants.MARKER_INFO_DIALOG_EXTRA_UUID;
 import static com.example.appdemo.utils.Constants.MARKER_INFO_DIALOG_TAG;
 import static com.example.appdemo.utils.Constants.OVERLAY_DIALOG_EXTRA_IMAGE_HEIGHT;
 import static com.example.appdemo.utils.Constants.OVERLAY_DIALOG_EXTRA_IMAGE_WIDTH;
 
-public class OverlayDialog extends DialogFragment implements View.OnClickListener {
+public class AddMarkerDialog extends DialogFragment implements View.OnClickListener {
 
     public static final String TAG = "TAG";
 
     private int mImageWidth, mImageHeight, mScreenOrientation, xCoord, yCoord;
     private int mMarkerRadius = 60;
-
+    private UUID uuid;
+    private ImageView marker;
     private FrameLayout mImageOverlay;
     private ImageView mCloseDialogButton;
     private TextView mInitialMessage;
@@ -83,15 +78,13 @@ public class OverlayDialog extends DialogFragment implements View.OnClickListene
         else if (mScreenOrientation == Configuration.ORIENTATION_LANDSCAPE)
             view = inflater.inflate(R.layout.overlay_dialog_layout_landscape, container, false);
         else
-            view = view = inflater.inflate(R.layout.overlay_dialog_layout_portrait, container, false);
+            view = inflater.inflate(R.layout.overlay_dialog_layout_portrait, container, false);
 
 
         initializeViews(view);
         Log.d(TAG, "onCreateView: inner overlay width: " + mImageOverlay.getWidth() + " and measured ?? width: " + mImageOverlay.getMeasuredWidth());
         return view;
     }
-    private UUID uuid;
-    private ImageView marker;
 
     private void initializeViews(View view) {
         mCloseDialogButton = view.findViewById(R.id.overlay_dialog_close);
@@ -152,7 +145,7 @@ public class OverlayDialog extends DialogFragment implements View.OnClickListene
                         mImageOverlay.addView(marker, params);
                         uuid = UUID.randomUUID();
                         marker.setTag(uuid);
-                        marker.setOnClickListener(new View.OnClickListener() {
+                        /*marker.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 MarkerInfoDialog dialog = new MarkerInfoDialog();
@@ -162,10 +155,16 @@ public class OverlayDialog extends DialogFragment implements View.OnClickListene
                                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                                 dialog.show(ft, MARKER_INFO_DIALOG_TAG);
                             }
-                        });
-                        Log.d(TAG, "image UUID: " + marker.getTag());
-                        Log.d(TAG, "image width: " + marker.getWidth() + " marker height: " + marker.getHeight());
-                        Log.d(TAG, "marker left: " + marker.getLeft() + " marker top: " + marker.getTop());
+                        });*/
+
+                        /* Try this instead to open marker dialog immediately after adding it */
+                        MarkerInfoDialog dialog = new MarkerInfoDialog();
+                        Bundle b = new Bundle();
+                        b.putString(MARKER_INFO_DIALOG_EXTRA_UUID, marker.getTag().toString());
+                        dialog.setArguments(b);
+                        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                        dialog.show(ft, MARKER_INFO_DIALOG_TAG);
+
                     }
 
                     @Override

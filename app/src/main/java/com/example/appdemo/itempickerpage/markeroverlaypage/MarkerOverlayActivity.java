@@ -1,4 +1,4 @@
-package com.example.appdemo;
+package com.example.appdemo.itempickerpage.markeroverlaypage;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -11,45 +11,52 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.appdemo.R;
+import com.github.chrisbanes.photoview.PhotoView;
+import com.github.chrisbanes.photoview.PhotoViewAttacher;
 
 import static com.example.appdemo.utils.Constants.ADD_OVERLAY_INTENT_KEY;
 import static com.example.appdemo.utils.Constants.OVERLAY_DIALOG_EXTRA_IMAGE_HEIGHT;
 import static com.example.appdemo.utils.Constants.OVERLAY_DIALOG_EXTRA_IMAGE_WIDTH;
 import static com.example.appdemo.utils.Constants.OVERLAY_DIALOG_TAG;
 
-public class AddOverlayActivity extends AppCompatActivity implements View.OnClickListener{
+public class MarkerOverlayActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String TAG = "TAG";
 
     private int mDrawableId, mOverlayImageWidth, mOverlayImageHeight, mScreenOrientation;
-    private ImageView mOverlayImage;
+    //    private ImageView mOverlayImage;
     private TextView mOverlayActionAddPoint;
-
+    private PhotoViewAttacher mAttacher;
+    private PhotoView mOverlayImage;
+    private Button mBackButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        /* Try this to see if it avoids the samsung tablet action bar at the bottom (screen not behind it) */
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         mScreenOrientation = getResources().getConfiguration().orientation;
         if (mScreenOrientation == Configuration.ORIENTATION_PORTRAIT)
-            setContentView(R.layout.activity_add_overlay_portrait);
+            setContentView(R.layout.activity_marker_overlay_portrait);
 
         if (mScreenOrientation == Configuration.ORIENTATION_LANDSCAPE)
-            setContentView(R.layout.activity_add_overlay_landscape);
+            setContentView(R.layout.activity_marker_overlay_landscape);
 
         mOverlayImage = findViewById(R.id.overlay_image);
         mOverlayActionAddPoint = findViewById(R.id.overlay_action_add_point);
-        mOverlayActionAddPoint.setOnClickListener(this);
+        mBackButton = findViewById(R.id.add_overlay_back_btn);
 
-            getIncomingIntent();
+        mBackButton.setOnClickListener(this);
+        mOverlayActionAddPoint.setOnClickListener(this);
+        getIncomingIntent();
     }
 
     private void getIncomingIntent() {
@@ -68,7 +75,7 @@ public class AddOverlayActivity extends AppCompatActivity implements View.OnClic
         switch (v.getId()) {
 
             case R.id.overlay_action_add_point:
-                OverlayDialog dialog = new OverlayDialog();
+                AddMarkerDialog dialog = new AddMarkerDialog();
                 Bundle b = new Bundle();
                 b.putInt(OVERLAY_DIALOG_EXTRA_IMAGE_WIDTH, mOverlayImageWidth);
                 b.putInt(OVERLAY_DIALOG_EXTRA_IMAGE_HEIGHT, mOverlayImageHeight);
@@ -76,12 +83,16 @@ public class AddOverlayActivity extends AppCompatActivity implements View.OnClic
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 dialog.show(ft, OVERLAY_DIALOG_TAG);
                 break;
+
+            case R.id.add_overlay_back_btn:
+                finish();
+                break;
         }
     }
 
 
     private void detectScreenDimens() {
-        WindowManager wm = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
         display.getMetrics(metrics);
@@ -105,4 +116,10 @@ public class AddOverlayActivity extends AppCompatActivity implements View.OnClic
             });
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
 }

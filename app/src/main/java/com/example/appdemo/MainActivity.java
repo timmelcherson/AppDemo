@@ -2,10 +2,7 @@ package com.example.appdemo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.ActivityOptionsCompat;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,11 +10,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.appdemo.animationutils.CustomAnimations;
+import com.example.appdemo.itempickerpage.ItemPickerActivity;
 import com.linroid.filtermenu.library.FilterMenu;
 import com.linroid.filtermenu.library.FilterMenuLayout;
 import com.ramotion.circlemenu.CircleMenuView;
-
-import static com.example.appdemo.animationutils.CustomAnimations.fadeOutView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "onButtonClickAnimationEnd| index: " + position);
                         switch (position) {
                             case 0:
-//                                mCustomAnimations.presentActivity(MainActivity.this, ImagePickerActivity.class, view);
-                                Intent intent = new Intent(MainActivity.this, ImagePickerActivity.class);
+//                                mCustomAnimations.presentActivity(MainActivity.this, ItemPickerActivity.class, view);
+                                Intent intent = new Intent(MainActivity.this, ItemPickerActivity.class);
                                 startActivity(intent);
                                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                                 mLayout.setVisibility(View.GONE);
@@ -111,9 +107,9 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "onButtonClickAnimationEnd| index: " + index);
                 switch (index) {
                     case 0:
-//                        Intent intent = new Intent(MainActivity.this, ImagePickerActivity.class);
+//                        Intent intent = new Intent(MainActivity.this, ItemPickerActivity.class);
 //                        startActivity(intent);
-                        mCustomAnimations.presentActivity(MainActivity.this, ImagePickerActivity.class, view);
+                        mCustomAnimations.presentActivity(MainActivity.this, ItemPickerActivity.class, view);
                         break;
 
                     case 1:

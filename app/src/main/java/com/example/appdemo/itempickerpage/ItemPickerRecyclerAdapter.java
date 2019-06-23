@@ -1,4 +1,4 @@
-package com.example.appdemo;
+package com.example.appdemo.itempickerpage;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,18 +10,20 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.appdemo.R;
+
 import java.util.List;
 
-public class ImagePickerRecyclerAdapter extends RecyclerView.Adapter<ImagePickerRecyclerAdapter.ViewHolder> {
+public class ItemPickerRecyclerAdapter extends RecyclerView.Adapter<ItemPickerRecyclerAdapter.ViewHolder> {
 
-    private List<ImageItem> mImageList;
+    private List<ItemPickerCard> mImageList;
     private OnImageItemsItemListener onImageItemsItemListener;
 
     public static final String TAG = "TAG";
 
 
     // Constructor
-    public ImagePickerRecyclerAdapter(List<ImageItem> imageList, OnImageItemsItemListener onImageItemsItemListener) {
+    public ItemPickerRecyclerAdapter(List<ItemPickerCard> imageList, OnImageItemsItemListener onImageItemsItemListener) {
         this.mImageList = imageList;
         this.onImageItemsItemListener = onImageItemsItemListener;
     }
@@ -53,13 +55,13 @@ public class ImagePickerRecyclerAdapter extends RecyclerView.Adapter<ImagePicker
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_item_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_picker_card, parent, false);
         return new ViewHolder(view, onImageItemsItemListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        ImageItem item = mImageList.get(position);
+        ItemPickerCard item = mImageList.get(position);
         holder.mItemImage.setImageResource(item.getImageResource());
         holder.mItemTitle.setText(item.getText());
     }

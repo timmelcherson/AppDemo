@@ -1,4 +1,4 @@
-package com.example.appdemo;
+package com.example.appdemo.itempickerpage.markeroverlaypage;
 
 import android.app.Dialog;
 import android.content.res.Configuration;
@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
+
+import com.example.appdemo.R;
 
 import static com.example.appdemo.utils.Constants.MARKER_INFO_DIALOG_EXTRA_UUID;
 import static com.example.appdemo.utils.Constants.OVERLAY_DIALOG_EXTRA_IMAGE_HEIGHT;
@@ -87,28 +89,34 @@ public class MarkerInfoDialog extends DialogFragment implements View.OnClickList
         }
     }
 
+    private String sampleId;
+    private int sampleNum;
+
     private void initializeViews(View view) {
 
         mCloseMarkerInfoDialog = view.findViewById(R.id.close_marker_info_dialog);
-        TextView test = view.findViewById(R.id.marker_uuid);
-        test.setText(markerUUID);
 
         mSampleNumber = view.findViewById(R.id.marker_info_sample_number);
+        mSampleNumber.setText("S0073");
+        String str = (String) mSampleNumber.getText();
+        Log.d(TAG, "initializeViews: STR: " + str);
+        String str2 = str.replaceAll("[^\\d.]", "");
+        Log.d(TAG, "initializeViews: STR2: " + str2);
+        sampleNum = Integer.parseInt(str2);
+        Log.d(TAG, "initializeViews: NUM: " + sampleNum);
         mSampleTakenSwitch = view.findViewById(R.id.marker_info_sample_taken_switch);
         mSampleTakenSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                int num = 0;
 
                 if (isChecked)
-                    num = Integer.parseInt(mSampleNumber.getText().toString()) + 1;
+                    sampleNum++;
                 else {
-                    if (Integer.parseInt(mSampleNumber.getText().toString()) > 0)
-                        num = Integer.parseInt(mSampleNumber.getText().toString()) - 1;
+                    if (sampleNum > 0)
+                        sampleNum--;
                 }
-
-
-                mSampleNumber.setText(String.valueOf(num));
+                sampleId = String.format("S%04d", sampleNum);
+                mSampleNumber.setText(sampleId);
             }
         });
 

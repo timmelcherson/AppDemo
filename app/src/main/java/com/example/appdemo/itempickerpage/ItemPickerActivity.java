@@ -1,4 +1,4 @@
-package com.example.appdemo;
+package com.example.appdemo.itempickerpage;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,8 +9,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.Toast;
 
+import com.example.appdemo.itempickerpage.markeroverlaypage.MarkerOverlayActivity;
+import com.example.appdemo.R;
 import com.example.appdemo.animationutils.CustomAnimations;
 import com.example.appdemo.utils.Constants;
 
@@ -20,7 +21,7 @@ import java.util.List;
 import static com.example.appdemo.utils.Constants.EXTRA_CIRCULAR_REVEAL_X;
 import static com.example.appdemo.utils.Constants.EXTRA_CIRCULAR_REVEAL_Y;
 
-public class ImagePickerActivity extends AppCompatActivity implements ImagePickerRecyclerAdapter.OnImageItemsItemListener{
+public class ItemPickerActivity extends AppCompatActivity implements ItemPickerRecyclerAdapter.OnImageItemsItemListener{
 
     public static final String TAG = "TAG";
 
@@ -28,12 +29,12 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
     private View rootLayout;
     private RecyclerView mRecyclerView;
 
-    private List<ImageItem> mItemList = new ArrayList<>();
+    private List<ItemPickerCard> mItemList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image_picker);
+        setContentView(R.layout.activity_item_picker);
 
 
         rootLayout = findViewById(R.id.image_picker_layout);
@@ -41,9 +42,9 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
 
         mCustomAnimations = new CustomAnimations();
 
-        mItemList.add(new ImageItem(R.drawable.blueprint_1, getString(R.string.image_item_blueprint_title)));
-        mItemList.add(new ImageItem(R.drawable.hand_draw_1, getString(R.string.image_item_hand_drawn_title)));
-        mItemList.add(new ImageItem(R.drawable.emergency, getString(R.string.image_item_emergency_title)));
+        mItemList.add(new ItemPickerCard(R.drawable.blueprint_1, getString(R.string.image_item_blueprint_title)));
+        mItemList.add(new ItemPickerCard(R.drawable.house, getString(R.string.image_item_hand_drawn_title)));
+        mItemList.add(new ItemPickerCard(R.drawable.emergency, getString(R.string.image_item_emergency_title)));
         Log.d(TAG, "onCreate: list is this size: " + mItemList.size());
 
         if (savedInstanceState == null) {
@@ -79,14 +80,14 @@ public class ImagePickerActivity extends AppCompatActivity implements ImagePicke
     private void buildRecyclerView() {
         LinearLayoutManager lm = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(lm);
-        ImagePickerRecyclerAdapter adapter = new ImagePickerRecyclerAdapter(mItemList, this);
+        ItemPickerRecyclerAdapter adapter = new ItemPickerRecyclerAdapter(mItemList, this);
         mRecyclerView.setAdapter(adapter);
     }
 
     @Override
     public void onItemClick(int position) {
 
-        Intent intent = new Intent(this, AddOverlayActivity.class);
+        Intent intent = new Intent(this, MarkerOverlayActivity.class);
         intent.putExtra(Constants.ADD_OVERLAY_INTENT_KEY, mItemList.get(position).getImageResource());
         Log.d(TAG, "sending int: " + mItemList.get(position).getImageResource());
         startActivity(intent);
