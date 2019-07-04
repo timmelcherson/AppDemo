@@ -42,40 +42,14 @@ public class ItemPickerActivity extends AppCompatActivity implements ItemPickerR
 
         mCustomAnimations = new CustomAnimations();
 
-        mItemList.add(new ItemPickerCard(R.drawable.blueprint_1, getString(R.string.image_item_blueprint_title)));
-        mItemList.add(new ItemPickerCard(R.drawable.house, getString(R.string.image_item_hand_drawn_title)));
-        mItemList.add(new ItemPickerCard(R.drawable.emergency, getString(R.string.image_item_emergency_title)));
-        Log.d(TAG, "onCreate: list is this size: " + mItemList.size());
+        mItemList.add(new ItemPickerCard(R.drawable.blueprint_1, getString(R.string.picker_item_title_1)));
+        mItemList.add(new ItemPickerCard(R.drawable.house, getString(R.string.picker_item_title_2)));
+        mItemList.add(new ItemPickerCard(R.drawable.emergency, getString(R.string.picker_item_title_3)));
 
-        if (savedInstanceState == null) {
-//            getIncomingIntent();
-        }
         buildRecyclerView();
-
     }
 
-    private void getIncomingIntent() {
 
-        Intent intent = getIntent();
-
-        if (intent.hasExtra(EXTRA_CIRCULAR_REVEAL_X) && intent.hasExtra(EXTRA_CIRCULAR_REVEAL_Y)) {
-            rootLayout.setVisibility(View.INVISIBLE);
-
-            final int revealX = intent.getIntExtra(EXTRA_CIRCULAR_REVEAL_X, 0);
-            final int revealY = intent.getIntExtra(EXTRA_CIRCULAR_REVEAL_Y, 0);
-
-            ViewTreeObserver viewTreeObserver = rootLayout.getViewTreeObserver();
-            if (viewTreeObserver.isAlive()) {
-                viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        mCustomAnimations.revealActivity(revealX, revealY, rootLayout);
-                        rootLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    }
-                });
-            }
-        }
-    }
 
     private void buildRecyclerView() {
         LinearLayoutManager lm = new LinearLayoutManager(this);

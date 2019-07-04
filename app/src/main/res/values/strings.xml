@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Demo App</string>
 
-    <string name="image_item_blueprint_title">Choose a blueprint</string>
-    <string name="image_item_hand_drawn_title">Choose hand drawing</string>
-    <string name="image_item_emergency_title">Choose emergency image</string>
+    <string name="picker_item_title_1">Example Entry 1</string>
+    <string name="picker_item_title_2">Example Entry 2</string>
+    <string name="picker_item_title_3">Example Entry 3</string>
 
     <string name="overlay_dialog_initial_message">Click on image to add point</string>
     <string name="overlay_dialog_save_button_text">Save</string>

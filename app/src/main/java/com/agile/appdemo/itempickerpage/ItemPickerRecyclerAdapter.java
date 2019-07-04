@@ -38,9 +38,9 @@ public class ItemPickerRecyclerAdapter extends RecyclerView.Adapter<ItemPickerRe
 
         public ViewHolder(@NonNull View itemView, OnImageItemsItemListener onImageItemsItemListener) {
             super(itemView);
-            mImageItemCard = itemView.findViewById(R.id.image_item_card);
-            mItemTitle = itemView.findViewById(R.id.image_item_title);
-            mItemImage = itemView.findViewById(R.id.image_item_src);
+//            mImageItemCard = itemView.findViewById(R.id.image_item_card);
+            mItemTitle = itemView.findViewById(R.id.picker_item_title);
+//            mItemImage = itemView.findViewById(R.id.image_item_src);
             this.onImageItemsItemListener = onImageItemsItemListener;
 
             itemView.setOnClickListener(this);
@@ -62,7 +62,7 @@ public class ItemPickerRecyclerAdapter extends RecyclerView.Adapter<ItemPickerRe
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         ItemPickerCard item = mImageList.get(position);
-        holder.mItemImage.setImageResource(item.getImageResource());
+//        holder.mItemImage.setImageResource(item.getImageResource());
         holder.mItemTitle.setText(item.getText());
     }
 

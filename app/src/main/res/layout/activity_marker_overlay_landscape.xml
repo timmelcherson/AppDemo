@@ -4,15 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".itempickerpage.markeroverlaypage.MarkerOverlayActivity">
 
     <FrameLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toTopOf="@+id/overlay_bottom_guide"
         app:layout_constraintEnd_toStartOf="@+id/overlay_end_guide"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/overlay_top_guide">
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/overlay_image"
@@ -59,21 +58,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/overlay_top_guide"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.2" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/overlay_bottom_guide"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.8" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/overlay_end_guide"
