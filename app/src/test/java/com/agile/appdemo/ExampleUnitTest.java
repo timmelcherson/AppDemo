@@ -1,4 +1,4 @@
-package com.example.appdemo;
+package com.agile.appdemo;
 
 import org.junit.Test;
 

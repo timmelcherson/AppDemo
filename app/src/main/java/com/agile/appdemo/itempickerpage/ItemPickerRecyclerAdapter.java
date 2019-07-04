@@ -1,4 +1,4 @@
-package com.example.appdemo.itempickerpage;
+package com.agile.appdemo.itempickerpage;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appdemo.R;
+import com.agile.appdemo.R;
 
 import java.util.List;
 

@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Demo App</string>
+
+    <string name="image_item_blueprint_title">Choose a blueprint</string>
+    <string name="image_item_hand_drawn_title">Choose hand drawing</string>
+    <string name="image_item_emergency_title">Choose emergency image</string>
+
+    <string name="overlay_dialog_initial_message">Click on image to add point</string>
+    <string name="overlay_dialog_save_button_text">Save</string>
+
+
+    <!-- Marker Info Dialog -->
+    <string name="marker_info_material_type_title">Matériau ou Produit</string>
+    <string-array name="marker_info_material_types">
+        <item name="type_one">Faux plafond</item>
+        <item name="type_two">Panneau</item>
+        <item name="type_three">Colle de plinthe</item>
+        <item name="type_four">Panneau de cloison</item>
+        <item name="type_five">Isolant</item>
+    </string-array>
+
+    <string name="marker_info_criteria_for_decision_title">Critère de décision</string>
+    <string-array name="decision_criterias">
+        <item name="criteria_one">Résultat d\'analyse</item>
+        <item name="criteria_two">Marquage matériau</item>
+        <item name="criteria_three">Ne contient pas d\'amiante par nature</item>
+        <item name="criteria_four">Document consulté</item>
+    </string-array>
+
+    <string name="marker_info_survey_observation_title">Sondage ou Observation</string>
+    <string name="marker_info_survey">Sondage</string>
+    <string name="marker_info_observation">Observation</string>
+
+    <string name="marker_info_presence_of_asbestos_title">Présence d\'amiante</string>
+    <string name="marker_info_yes">Oui</string>
+    <string name="marker_info_no">Non</string>
+
+    <string name="marker_info_sample_taken_title">Échantillon prélevé</string>
+    <string name="marker_info_sample_number_title">No échantillon:</string>
+</resources>

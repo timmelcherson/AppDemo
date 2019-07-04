@@ -1,4 +1,4 @@
-package com.example.appdemo.itempickerpage.markeroverlaypage;
+package com.agile.appdemo.itempickerpage.markeroverlaypage;
 
 import android.app.Dialog;
 import android.content.res.Configuration;
@@ -21,31 +21,37 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.appdemo.R;
+import com.agile.appdemo.R;
 import com.linroid.filtermenu.library.FilterMenu;
 import com.linroid.filtermenu.library.FilterMenuLayout;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
-import static com.example.appdemo.animationutils.CustomAnimations.fadeInView;
-import static com.example.appdemo.utils.Constants.MARKER_INFO_DIALOG_EXTRA_UUID;
-import static com.example.appdemo.utils.Constants.MARKER_INFO_DIALOG_TAG;
-import static com.example.appdemo.utils.Constants.OVERLAY_DIALOG_EXTRA_IMAGE_HEIGHT;
-import static com.example.appdemo.utils.Constants.OVERLAY_DIALOG_EXTRA_IMAGE_WIDTH;
+import static com.agile.appdemo.animationutils.CustomAnimations.fadeInView;
+import static com.agile.appdemo.utils.Constants.MARKER_INFO_DIALOG_EXTRA_UUID;
+import static com.agile.appdemo.utils.Constants.MARKER_INFO_DIALOG_TAG;
+import static com.agile.appdemo.utils.Constants.OVERLAY_DIALOG_EXTRA_IMAGE_HEIGHT;
+import static com.agile.appdemo.utils.Constants.OVERLAY_DIALOG_EXTRA_IMAGE_WIDTH;
 
-public class AddMarkerDialog extends DialogFragment implements View.OnClickListener {
+public class AddMarkerDialog extends DialogFragment implements View.OnClickListener, FilterMenu.OnMenuChangeListener {
 
     public static final String TAG = "TAG";
 
     private int mImageWidth, mImageHeight, mScreenOrientation, xCoord, yCoord;
     private int mMarkerRadius = 60;
     private UUID uuid;
+    private String mMarkerId;
     private ImageView marker;
     private FrameLayout mImageOverlay;
     private ImageView mCloseDialogButton;
     private TextView mInitialMessage;
     private Button mSaveButton;
-
+    private HashMap<UUID, List<Integer>> mMarkerCoordinatesMap = new HashMap<>();
+    private List<Integer> mMarkerCoordinates;
+    private FilterMenuLayout mPickerMenuLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,11 +72,6 @@ public class AddMarkerDialog extends DialogFragment implements View.OnClickListe
         super.onCreateView(inflater, container, savedInstanceState);
         View view;
 
-        if (getDialog() != null && getDialog().getWindow() != null) {
-            Log.d(TAG, "onCreateView: setting color");
-
-        }
-
         mScreenOrientation = getResources().getConfiguration().orientation;
 
         if (mScreenOrientation == Configuration.ORIENTATION_PORTRAIT && getActivity() != null)
@@ -82,7 +83,6 @@ public class AddMarkerDialog extends DialogFragment implements View.OnClickListe
 
 
         initializeViews(view);
-        Log.d(TAG, "onCreateView: inner overlay width: " + mImageOverlay.getWidth() + " and measured ?? width: " + mImageOverlay.getMeasuredWidth());
         return view;
     }
 
@@ -106,81 +106,16 @@ public class AddMarkerDialog extends DialogFragment implements View.OnClickListe
         params.width = mImageWidth;
         params.height = mImageHeight;
         mImageOverlay.setLayoutParams(params);
-        final FilterMenuLayout pickerMenuLayout = (FilterMenuLayout) view.findViewById(R.id.point_picker_menu);
+        mPickerMenuLayout = view.findViewById(R.id.point_picker_menu);
         final FilterMenu pickerMenu = new FilterMenu.Builder(getActivity())
-                .inflate(R.menu.point_picker_menu_items)//inflate  menu resource
-                .attach(pickerMenuLayout)
-                .withListener(new FilterMenu.OnMenuChangeListener() {
-                    @Override
-                    public void onMenuItemClick(View view, int position) {
-
-                        marker = new ImageView(getActivity());
-
-                        switch (position) {
-                            case 0:
-                                marker.setImageResource(R.drawable.image_marker_red_blank);
-                                break;
-                            case 1:
-                                marker.setImageResource(R.drawable.image_marker_red_cross);
-                                break;
-                            case 2:
-                                marker.setImageResource(R.drawable.image_marker_blue_blank);
-                                break;
-                            case 3:
-                                marker.setImageResource(R.drawable.image_marker_blue_cross);
-                                break;
-                            case 4:
-                                marker.setImageResource(R.drawable.image_marker_green_blank);
-                                break;
-                            case 5:
-                                marker.setImageResource(R.drawable.image_marker_green_cross);
-                                break;
-                        }
-
-                        Log.d(TAG, "onMenuItemClick: xCoord: " + xCoord + " y-coord: " + yCoord);
-
-                        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mMarkerRadius, mMarkerRadius);
-                        params.leftMargin = xCoord - (mMarkerRadius / 2);
-                        params.topMargin = yCoord - (mMarkerRadius / 2);
-                        mImageOverlay.addView(marker, params);
-                        uuid = UUID.randomUUID();
-                        marker.setTag(uuid);
-                        /*marker.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                MarkerInfoDialog dialog = new MarkerInfoDialog();
-                                Bundle b = new Bundle();
-                                b.putString(MARKER_INFO_DIALOG_EXTRA_UUID, marker.getTag().toString());
-                                dialog.setArguments(b);
-                                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                                dialog.show(ft, MARKER_INFO_DIALOG_TAG);
-                            }
-                        });*/
-
-                        /* Try this instead to open marker dialog immediately after adding it */
-                        MarkerInfoDialog dialog = new MarkerInfoDialog();
-                        Bundle b = new Bundle();
-                        b.putString(MARKER_INFO_DIALOG_EXTRA_UUID, marker.getTag().toString());
-                        dialog.setArguments(b);
-                        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                        dialog.show(ft, MARKER_INFO_DIALOG_TAG);
-
-                    }
-
-                    @Override
-                    public void onMenuCollapse() {
-                        pickerMenuLayout.setVisibility(View.GONE);
-                        Log.d(TAG, "onMenuCollapse: ");
-                    }
-
-                    @Override
-                    public void onMenuExpand() {
-                        Log.d(TAG, "onMenuExpand: ");
-                    }
-                })
+                .inflate(R.menu.point_picker_menu_items)
+                .attach(mPickerMenuLayout)
+                .withListener(this)
                 .build();
+
         mSaveButton.setOnClickListener(this);
         mCloseDialogButton.setOnClickListener(this);
+
         mImageOverlay.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -188,9 +123,9 @@ public class AddMarkerDialog extends DialogFragment implements View.OnClickListe
                     xCoord = (int) event.getX();
                     yCoord = (int) event.getY();
                     Log.d(TAG, "onTouch: xCoord: " + xCoord);
-                    fadeInView(pickerMenuLayout);
+                    fadeInView(mPickerMenuLayout);
                     pickerMenu.expand(true);
-
+                    mPickerMenuLayout.bringToFront();
                 }
                 return false;
             }
@@ -209,8 +144,6 @@ public class AddMarkerDialog extends DialogFragment implements View.OnClickListe
             WindowManager.LayoutParams windowParams = dialog.getWindow().getAttributes();
             windowParams.dimAmount = 0.0f;
             dialog.getWindow().setAttributes(windowParams);
-            Log.d(TAG, "onStart: width: " + width + ", hieght: " + height);
-            Log.d(TAG, "onStart: mImageWidth: " + mImageWidth + ", mImageHeight: " + mImageHeight);
         }
     }
 
@@ -223,7 +156,6 @@ public class AddMarkerDialog extends DialogFragment implements View.OnClickListe
                 break;
 
             case R.id.overlay_dialog_inner_container:
-                Log.d(TAG, "onClick: it was also clicked");
                 break;
 
             case R.id.overlay_save_button:
@@ -231,5 +163,90 @@ public class AddMarkerDialog extends DialogFragment implements View.OnClickListe
                 dismiss();
                 break;
         }
+    }
+
+    @Override
+    public void onMenuItemClick(View view, int position) {
+
+        marker = new ImageView(getActivity());
+
+        switch (position) {
+            case 0:
+                marker.setImageResource(R.drawable.image_marker_red_blank);
+                break;
+            case 1:
+                marker.setImageResource(R.drawable.image_marker_red_cross);
+                break;
+            case 2:
+                marker.setImageResource(R.drawable.image_marker_blue_blank);
+                break;
+            case 3:
+                marker.setImageResource(R.drawable.image_marker_blue_cross);
+                break;
+            case 4:
+                marker.setImageResource(R.drawable.image_marker_green_blank);
+                break;
+            case 5:
+                marker.setImageResource(R.drawable.image_marker_green_cross);
+                break;
+        }
+        
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mMarkerRadius, mMarkerRadius);
+        int startMargin = xCoord - (mMarkerRadius / 2);
+        int topMargin = yCoord - (mMarkerRadius / 2);
+        mMarkerCoordinates = new ArrayList<>();
+        mMarkerCoordinates.add(startMargin);
+        mMarkerCoordinates.add(topMargin);
+//        params.leftMargin = startMargin;
+        params.setMarginStart(startMargin);
+        params.topMargin = topMargin;
+
+        mImageOverlay.addView(marker, params);
+//        uuid = UUID.randomUUID();
+
+        mMarkerId = UUID.randomUUID().toString();
+
+//        marker.setTag(uuid);
+
+
+        int[] coordinates = new int[2];
+        coordinates[0] = startMargin;
+        coordinates[1] = topMargin;
+
+        /* Try this instead to open marker dialog immediately after adding it */
+        MarkerInfoDialog dialog = new MarkerInfoDialog();
+        Bundle b = new Bundle();
+        b.putString(MARKER_INFO_DIALOG_EXTRA_UUID, mMarkerId);
+        dialog.setArguments(b);
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        dialog.show(ft, MARKER_INFO_DIALOG_TAG);
+
+//        mMarkerCoordinatesMap.put(uuid, mMarkerCoordinates);
+
+        marker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MarkerInfoDialog dialog = new MarkerInfoDialog();
+                Bundle b = new Bundle();
+                b.putString(MARKER_INFO_DIALOG_EXTRA_UUID, mMarkerId);
+                dialog.setArguments(b);
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                dialog.show(ft, MARKER_INFO_DIALOG_TAG);
+            }
+        });
+
+//        Bundle bu = new Bundle();
+//        bu.putIntArray(uuid.toString(), coordinates);
+    }
+
+
+    @Override
+    public void onMenuCollapse() {
+        mPickerMenuLayout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onMenuExpand() {
+
     }
 }

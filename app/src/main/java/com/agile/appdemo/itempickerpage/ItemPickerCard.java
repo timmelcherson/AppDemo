@@ -1,4 +1,4 @@
-package com.example.appdemo.itempickerpage;
+package com.agile.appdemo.itempickerpage;
 
 public class ItemPickerCard {
 

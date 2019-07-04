@@ -1,4 +1,4 @@
-package com.example.appdemo.itempickerpage.markeroverlaypage;
+package com.agile.appdemo.itempickerpage.markeroverlaypage;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -15,16 +15,17 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.appdemo.R;
+import com.agile.appdemo.BaseActivity;
+import com.agile.appdemo.R;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.github.chrisbanes.photoview.PhotoViewAttacher;
 
-import static com.example.appdemo.utils.Constants.ADD_OVERLAY_INTENT_KEY;
-import static com.example.appdemo.utils.Constants.OVERLAY_DIALOG_EXTRA_IMAGE_HEIGHT;
-import static com.example.appdemo.utils.Constants.OVERLAY_DIALOG_EXTRA_IMAGE_WIDTH;
-import static com.example.appdemo.utils.Constants.OVERLAY_DIALOG_TAG;
+import static com.agile.appdemo.utils.Constants.ADD_OVERLAY_INTENT_KEY;
+import static com.agile.appdemo.utils.Constants.OVERLAY_DIALOG_EXTRA_IMAGE_HEIGHT;
+import static com.agile.appdemo.utils.Constants.OVERLAY_DIALOG_EXTRA_IMAGE_WIDTH;
+import static com.agile.appdemo.utils.Constants.OVERLAY_DIALOG_TAG;
 
-public class MarkerOverlayActivity extends AppCompatActivity implements View.OnClickListener {
+public class MarkerOverlayActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String TAG = "TAG";
 

@@ -8,16 +8,38 @@
     <string name="overlay_dialog_initial_message">Click on image to add point</string>
     <string name="overlay_dialog_save_button_text">Save</string>
 
-    <string name="marker_info_material_type_title">Type of material</string>
+
+    <!-- Language Selector Dialog -->
+    <string name="language_name_english" translatable="false">English</string>
+    <string name="language_name_french" translatable="false">Français</string>
+
+
+    <!-- Marker Info Dialog -->
+    <string name="marker_info_material_type_title">Material or Product</string>
     <string-array name="marker_info_material_types">
-        <item name="isolant">Isolant</item>
-        <item name="panneau">Panneau</item>
-        <item name="revetement_dur">Revêtement dur</item>
-        <item name="plaque_ondulee">Plaque Ondulée</item>
+        <item name="type_one">False Ceiling</item>
+        <item name="type_two">Sign</item>
+        <item name="type_three">Baseboard</item>
+        <item name="type_four">Partition Panel</item>
+        <item name="type_five">Insulation</item>
     </string-array>
-    <string name="marker_info_description_title">Add a description</string>
+
+    <string name="marker_info_criteria_for_decision_title">Criteria For Decision</string>
+    <string-array name="decision_criterias">
+        <item name="criteria_one">Result of analysis</item>
+        <item name="criteria_two">Marking on material</item>
+        <item name="criteria_three">Does not naturally contain asbestos</item>
+        <item name="criteria_four">Documentation consulted</item>
+    </string-array>
+
+    <string name="marker_info_survey_observation_title">Survey or Observation</string>
+    <string name="marker_info_survey">Survey</string>
+    <string name="marker_info_observation">Observation</string>
+
+    <string name="marker_info_presence_of_asbestos_title">Presence of Asbestos</string>
+    <string name="marker_info_yes">Yes</string>
+    <string name="marker_info_no">No</string>
+
     <string name="marker_info_sample_taken_title">Sample taken</string>
     <string name="marker_info_sample_number_title">Sample number:</string>
-
-
 </resources>

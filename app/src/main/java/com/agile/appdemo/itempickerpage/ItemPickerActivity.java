@@ -1,4 +1,4 @@
-package com.example.appdemo.itempickerpage;
+package com.agile.appdemo.itempickerpage;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,16 +10,16 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
-import com.example.appdemo.itempickerpage.markeroverlaypage.MarkerOverlayActivity;
-import com.example.appdemo.R;
-import com.example.appdemo.animationutils.CustomAnimations;
-import com.example.appdemo.utils.Constants;
+import com.agile.appdemo.itempickerpage.markeroverlaypage.MarkerOverlayActivity;
+import com.agile.appdemo.R;
+import com.agile.appdemo.animationutils.CustomAnimations;
+import com.agile.appdemo.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.appdemo.utils.Constants.EXTRA_CIRCULAR_REVEAL_X;
-import static com.example.appdemo.utils.Constants.EXTRA_CIRCULAR_REVEAL_Y;
+import static com.agile.appdemo.utils.Constants.EXTRA_CIRCULAR_REVEAL_X;
+import static com.agile.appdemo.utils.Constants.EXTRA_CIRCULAR_REVEAL_Y;
 
 public class ItemPickerActivity extends AppCompatActivity implements ItemPickerRecyclerAdapter.OnImageItemsItemListener{
 

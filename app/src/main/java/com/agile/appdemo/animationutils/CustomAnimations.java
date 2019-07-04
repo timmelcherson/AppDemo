@@ -1,4 +1,4 @@
-package com.example.appdemo.animationutils;
+package com.agile.appdemo.animationutils;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -10,7 +10,7 @@ import android.view.animation.AccelerateInterpolator;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
-import com.example.appdemo.utils.Constants;
+import com.agile.appdemo.utils.Constants;
 
 public class CustomAnimations {
 

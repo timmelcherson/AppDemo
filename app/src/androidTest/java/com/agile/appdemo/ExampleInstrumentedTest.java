@@ -1,4 +1,4 @@
-package com.example.appdemo;
+package com.agile.appdemo;
 
 import android.content.Context;
 

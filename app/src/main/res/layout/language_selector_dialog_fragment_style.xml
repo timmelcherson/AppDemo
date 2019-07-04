@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/language_english_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="32dp"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/language_english_icon"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/uk_flag"
+                android:layout_gravity="center"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/language_english_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/language_name_english"
+                android:layout_marginStart="32dp"
+                android:textSize="60sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/language_french_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/language_french_icon"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/france_flag"
+                android:layout_gravity="center"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/language_french_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/language_name_french"
+                android:layout_marginStart="32dp"
+                android:textSize="60sp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

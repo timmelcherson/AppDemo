@@ -21,6 +21,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
+        <!-- ******************* ENTRY ONE ******************* -->
         <TextView
             android:id="@+id/marker_info_material_type_title"
             android:layout_width="wrap_content"
@@ -36,30 +38,108 @@
             android:id="@+id/marker_info_material_type_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:background="@null"
             android:layout_marginStart="16dp"
+            android:background="@null"
+            android:textColor="@android:color/white"
             app:layout_constraintStart_toEndOf="@+id/marker_info_material_type_title"
             app:layout_constraintTop_toTopOf="@+id/marker_info_material_type_title" />
 
+        <!-- ******************* ENTRY TWO ******************* -->
         <TextView
-            android:id="@+id/marker_info_description_title"
+            android:id="@+id/marker_info_criteria_for_decision_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:text="@string/marker_info_description_title"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/marker_info_material_type_title"
             android:textColor="@android:color/white"
-            app:layout_constraintStart_toStartOf="@+id/marker_info_material_type_title"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/marker_info_material_type_title" />
 
-        <EditText
-            android:id="@+id/marker_info_description"
-            android:layout_width="200dp"
+        <Spinner
+            android:id="@+id/marker_info_criteria_for_decision_spinner"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/marker_info_description_title"
-            app:layout_constraintStart_toEndOf="@+id/marker_info_description_title" />
+            android:background="@null"
+            android:textColor="@android:color/white"
+            app:layout_constraintStart_toEndOf="@+id/marker_info_criteria_for_decision_title"
+            app:layout_constraintTop_toTopOf="@+id/marker_info_criteria_for_decision_title" />
 
+        <!-- ******************* ENTRY THREE ******************* -->
+        <TextView
+            android:id="@+id/survey_observation_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/marker_info_survey_observation_title"
+            android:textColor="@android:color/white"
+            app:layout_constraintStart_toStartOf="@+id/marker_info_criteria_for_decision_title"
+            app:layout_constraintTop_toBottomOf="@+id/marker_info_criteria_for_decision_title" />
+        <RadioGroup
+            android:id="@+id/survey_observation_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="@+id/survey_observation_title"
+            app:layout_constraintTop_toBottomOf="@+id/survey_observation_title">
+
+            <RadioButton
+                android:id="@+id/option_survey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@android:color/white"
+                android:text="@string/marker_info_survey"
+                android:textColor="@android:color/white" />
+
+            <RadioButton
+                android:id="@+id/option_observation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@android:color/white"
+                android:text="@string/marker_info_observation"
+                android:textColor="@android:color/white" />
+        </RadioGroup>
+
+        <!-- ******************* ENTRY FOUR ******************* -->
+        <TextView
+            android:id="@+id/presence_of_asbestos_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/marker_info_presence_of_asbestos_title"
+            android:textColor="@android:color/white"
+            app:layout_constraintStart_toStartOf="@+id/survey_observation_group"
+            app:layout_constraintTop_toBottomOf="@+id/survey_observation_group" />
+
+        <RadioGroup
+            android:id="@+id/presence_of_asbestos_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="@+id/presence_of_asbestos_title"
+            app:layout_constraintTop_toBottomOf="@+id/presence_of_asbestos_title">
+
+            <RadioButton
+                android:id="@+id/asbestos_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@android:color/white"
+                android:text="@string/marker_info_yes"
+                android:textColor="@android:color/white" />
+
+            <RadioButton
+                android:id="@+id/asbestos_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@android:color/white"
+                android:text="@string/marker_info_no"
+                android:textColor="@android:color/white" />
+        </RadioGroup>
+
+        <!-- ******************* ENTRY FIVE ******************* -->
         <TextView
             android:id="@+id/marker_info_sample_taken_title"
             android:layout_width="wrap_content"
@@ -67,8 +147,8 @@
             android:layout_marginTop="48dp"
             android:text="@string/marker_info_sample_taken_title"
             android:textColor="@android:color/white"
-            app:layout_constraintStart_toStartOf="@+id/marker_info_material_type_title"
-            app:layout_constraintTop_toBottomOf="@+id/marker_info_description_title" />
+            app:layout_constraintStart_toStartOf="@+id/presence_of_asbestos_group"
+            app:layout_constraintTop_toBottomOf="@+id/presence_of_asbestos_group" />
 
         <Switch
             android:id="@+id/marker_info_sample_taken_switch"
@@ -83,7 +163,7 @@
             android:id="@+id/marker_info_sample_number_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="16dp"
             android:text="@string/marker_info_sample_number_title"
             android:textColor="@android:color/white"
             app:layout_constraintStart_toStartOf="@+id/marker_info_sample_taken_title"
@@ -99,15 +179,6 @@
             app:layout_constraintBottom_toBottomOf="@+id/marker_info_sample_number_title"
             app:layout_constraintStart_toEndOf="@+id/marker_info_sample_number_title"
             app:layout_constraintTop_toTopOf="@+id/marker_info_sample_number_title" />
-
-        <TextView
-            android:id="@+id/marker_uuid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:textColor="@android:color/white"
-            app:layout_constraintStart_toStartOf="@+id/marker_info_sample_number_title"
-            app:layout_constraintTop_toBottomOf="@+id/marker_info_sample_number_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
