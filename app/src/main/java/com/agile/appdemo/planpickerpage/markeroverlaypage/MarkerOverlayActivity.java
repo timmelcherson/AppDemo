@@ -1,7 +1,8 @@
-package com.agile.appdemo.itempickerpage.markeroverlaypage;
+package com.agile.appdemo.planpickerpage.markeroverlaypage;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -9,7 +10,6 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
@@ -18,8 +18,12 @@ import android.widget.TextView;
 
 import com.agile.appdemo.BaseActivity;
 import com.agile.appdemo.R;
+import com.agile.appdemo.database.entities.CustomMarker;
+import com.agile.appdemo.viewmodels.CustomMarkerViewModel;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.github.chrisbanes.photoview.PhotoViewAttacher;
+
+import java.util.List;
 
 import static com.agile.appdemo.utils.Constants.ADD_OVERLAY_INTENT_KEY;
 import static com.agile.appdemo.utils.Constants.OVERLAY_DIALOG_EXTRA_IMAGE_HEIGHT;
@@ -36,14 +40,11 @@ public class MarkerOverlayActivity extends BaseActivity implements View.OnClickL
     private PhotoViewAttacher mAttacher;
     private PhotoView mOverlayImage;
     private Button mBackButton;
+    private CustomMarkerViewModel mCustomMarkerViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        /* Try this to see if it avoids the samsung tablet action bar at the bottom (screen not behind it) */
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         mScreenOrientation = getResources().getConfiguration().orientation;
         if (mScreenOrientation == Configuration.ORIENTATION_PORTRAIT)
@@ -58,6 +59,14 @@ public class MarkerOverlayActivity extends BaseActivity implements View.OnClickL
 
         mBackButton.setOnClickListener(this);
         mOverlayActionAddPoint.setOnClickListener(this);
+
+        mCustomMarkerViewModel = ViewModelProviders.of(this).get(CustomMarkerViewModel.class);
+        mCustomMarkerViewModel.observableCustomMarkerList().observe(this, (List<CustomMarker> customMarkers) -> {
+            if (customMarkers != null && customMarkers.size() > 0) {
+                for (CustomMarker marker : customMarkers)
+                    Log.d(TAG, "Observed marker with id: " + marker.getMarkerId());
+            }
+        });
         getIncomingIntent();
     }
 
@@ -98,11 +107,6 @@ public class MarkerOverlayActivity extends BaseActivity implements View.OnClickL
         Display display = wm.getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
         display.getMetrics(metrics);
-        int width = metrics.widthPixels;
-        int height = metrics.heightPixels;
-
-        Log.d(TAG, "detectScreenDimens: width of screen: " + width);
-        Log.d(TAG, "detectScreenDimens: height of screen: " + height);
 
         ViewTreeObserver viewTreeObserver = mOverlayImage.getViewTreeObserver();
         if (viewTreeObserver.isAlive()) {
@@ -112,8 +116,6 @@ public class MarkerOverlayActivity extends BaseActivity implements View.OnClickL
                     mOverlayImage.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     mOverlayImageWidth = mOverlayImage.getWidth();
                     mOverlayImageHeight = mOverlayImage.getHeight();
-                    Log.d(TAG, "onGlobalLayout: viewWidth: " + mOverlayImageWidth);
-                    Log.d(TAG, "onGlobalLayout: viewHeight" + mOverlayImageHeight);
                 }
             });
         }

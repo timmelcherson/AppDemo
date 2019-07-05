@@ -1,12 +1,12 @@
-package com.agile.appdemo.itempickerpage;
+package com.agile.appdemo.planpickerpage;
 
-public class ItemPickerCard {
+public class PlanPickerCard {
 
 
     private int mImageResource;
     private String mText;
 
-    public ItemPickerCard(int imageResource, String text) {
+    public PlanPickerCard(int imageResource, String text) {
         mText = text;
         mImageResource = imageResource;
     }

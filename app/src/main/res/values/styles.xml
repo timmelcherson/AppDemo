@@ -17,7 +17,7 @@
 
     </style>
 
-    <style name="OverlayDialogStyle" parent="Theme.MaterialComponents.Dialog">
+    <style name="OverlayDialogStyle" parent="Theme.AppCompat.Dialog">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowIsFloating">true</item>

@@ -1,0 +1,16 @@
+{
+  "plans": [
+    {
+      "id": 1,
+      "name": "Blueprint"
+    },
+    {
+      "id": 2,
+      "name": "Floor Plan"
+    },
+    {
+      "id": 3,
+      "name": "Emergency Plan"
+    }
+  ]
+}

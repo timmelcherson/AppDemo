@@ -1,4 +1,4 @@
-package com.agile.appdemo.itempickerpage;
+package com.agile.appdemo.planpickerpage;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,16 +14,16 @@ import com.agile.appdemo.R;
 
 import java.util.List;
 
-public class ItemPickerRecyclerAdapter extends RecyclerView.Adapter<ItemPickerRecyclerAdapter.ViewHolder> {
+public class PlanPickerRecyclerAdapter extends RecyclerView.Adapter<PlanPickerRecyclerAdapter.ViewHolder> {
 
-    private List<ItemPickerCard> mImageList;
+    private List<PlanPickerCard> mImageList;
     private OnImageItemsItemListener onImageItemsItemListener;
 
     public static final String TAG = "TAG";
 
 
     // Constructor
-    public ItemPickerRecyclerAdapter(List<ItemPickerCard> imageList, OnImageItemsItemListener onImageItemsItemListener) {
+    public PlanPickerRecyclerAdapter(List<PlanPickerCard> imageList, OnImageItemsItemListener onImageItemsItemListener) {
         this.mImageList = imageList;
         this.onImageItemsItemListener = onImageItemsItemListener;
     }
@@ -55,13 +55,13 @@ public class ItemPickerRecyclerAdapter extends RecyclerView.Adapter<ItemPickerRe
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_picker_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.plan_picker_card, parent, false);
         return new ViewHolder(view, onImageItemsItemListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        ItemPickerCard item = mImageList.get(position);
+        PlanPickerCard item = mImageList.get(position);
 //        holder.mItemImage.setImageResource(item.getImageResource());
         holder.mItemTitle.setText(item.getText());
     }

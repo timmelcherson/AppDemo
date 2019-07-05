@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".itempickerpage.markeroverlaypage.MarkerOverlayActivity">
+    tools:context=".planpickerpage.markeroverlaypage.MarkerOverlayActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -66,9 +66,8 @@
             android:elevation="8dp"
             android:text="Back"
             android:textColor="@android:color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

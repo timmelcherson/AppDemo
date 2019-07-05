@@ -1,10 +1,8 @@
-package com.agile.appdemo.itempickerpage.markeroverlaypage;
+package com.agile.appdemo.planpickerpage.markeroverlaypage;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -29,8 +27,6 @@ import androidx.fragment.app.DialogFragment;
 
 import com.agile.appdemo.R;
 import com.agile.appdemo.utils.Constants;
-
-import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.agile.appdemo.utils.Constants.MARKER_INFO_DIALOG_EXTRA_UUID;

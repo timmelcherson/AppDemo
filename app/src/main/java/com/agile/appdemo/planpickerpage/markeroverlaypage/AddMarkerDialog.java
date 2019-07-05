@@ -1,4 +1,4 @@
-package com.agile.appdemo.itempickerpage.markeroverlaypage;
+package com.agile.appdemo.planpickerpage.markeroverlaypage;
 
 import android.app.Dialog;
 import android.content.res.Configuration;
@@ -41,7 +41,7 @@ public class AddMarkerDialog extends DialogFragment implements View.OnClickListe
     public static final String TAG = "TAG";
 
     private int mImageWidth, mImageHeight, mScreenOrientation, xCoord, yCoord;
-    private int mMarkerRadius = 60;
+    private int mMarkerRadius = 40;
     private UUID uuid;
     private String mMarkerId;
     private ImageView marker;
@@ -197,23 +197,18 @@ public class AddMarkerDialog extends DialogFragment implements View.OnClickListe
         mMarkerCoordinates = new ArrayList<>();
         mMarkerCoordinates.add(startMargin);
         mMarkerCoordinates.add(topMargin);
-//        params.leftMargin = startMargin;
         params.setMarginStart(startMargin);
         params.topMargin = topMargin;
 
         mImageOverlay.addView(marker, params);
-//        uuid = UUID.randomUUID();
 
         mMarkerId = UUID.randomUUID().toString();
-
-//        marker.setTag(uuid);
-
+        marker.setTag(mMarkerId);
 
         int[] coordinates = new int[2];
         coordinates[0] = startMargin;
         coordinates[1] = topMargin;
 
-        /* Try this instead to open marker dialog immediately after adding it */
         MarkerInfoDialog dialog = new MarkerInfoDialog();
         Bundle b = new Bundle();
         b.putString(MARKER_INFO_DIALOG_EXTRA_UUID, mMarkerId);
@@ -234,9 +229,6 @@ public class AddMarkerDialog extends DialogFragment implements View.OnClickListe
                 dialog.show(ft, MARKER_INFO_DIALOG_TAG);
             }
         });
-
-//        Bundle bu = new Bundle();
-//        bu.putIntArray(uuid.toString(), coordinates);
     }
 
 
