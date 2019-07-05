@@ -1,6 +1,7 @@
 package com.agile.appdemo.viewmodels;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -12,13 +13,17 @@ import com.agile.appdemo.repositories.PlanRepository;
 
 import java.util.List;
 
+import static com.agile.appdemo.planpickerpage.markeroverlaypage.MarkerOverlayActivity.TAG;
+
 public class PlanViewModel extends AndroidViewModel {
+
 
     private PlanRepository mRepository;
     private MutableLiveData<List<Plan>> mList;
 
     public PlanViewModel(Application application) {
         super(application);
+        Log.d(TAG, "PlanViewModel constructed");
         mRepository = PlanRepository.getInstance(RoomDatabase.getDatabase(application.getApplicationContext()), application.getApplicationContext());
     }
 

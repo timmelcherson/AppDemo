@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.agile.appdemo.database.entities.Plan;
 import com.agile.appdemo.planpickerpage.markeroverlaypage.MarkerOverlayActivity;
@@ -25,6 +26,7 @@ public class PlanPickerActivity extends AppCompatActivity implements PlanPickerR
     public static final String TAG = "TAG";
 
     private View rootLayout;
+    private TextView mPlanType;
     private RecyclerView mRecyclerView;
     private Button mBackButton;
 
@@ -38,6 +40,7 @@ public class PlanPickerActivity extends AppCompatActivity implements PlanPickerR
 
         rootLayout = findViewById(R.id.image_picker_layout);
         mRecyclerView = findViewById(R.id.image_item_recycler_view);
+        mPlanType = findViewById(R.id.picker_item_type_value);
         mBackButton = findViewById(R.id.item_picker_back_btn);
         mBackButton.setOnClickListener(this);
 
@@ -48,7 +51,7 @@ public class PlanPickerActivity extends AppCompatActivity implements PlanPickerR
         mPlanViewModel = ViewModelProviders.of(this).get(PlanViewModel.class);
         mPlanViewModel.observablePlanList().observe(this, (List<Plan> plans) -> {
             for (Plan plan : plans)
-                Log.d(TAG, "Observed plan with name: " + plan.getPlanName());
+                Log.d(TAG, "onCreate: OBSERVE PLAN: " + plan.getPlanName());
         });
 
         buildRecyclerView();

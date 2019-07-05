@@ -2,6 +2,7 @@ package com.agile.appdemo.repositories;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -18,6 +19,7 @@ import java.util.List;
 
 public class PlanRepository {
 
+    public static final String TAG = "TAG";
     private static PlanRepository mInstance;
     private static RoomDatabase mDatabase;
     private static PlanDao mPlanDao;
@@ -41,6 +43,7 @@ public class PlanRepository {
         mDatabase = database;
         mPlanDao = mDatabase.PlanDao();
 
+        loadJsonData();
     }
 
     private void loadJsonData() {
@@ -56,9 +59,9 @@ public class PlanRepository {
 
             JSONObject jsonObject = new JSONObject(string);
 
-            if (jsonObject.has("locations")) {
+            if (jsonObject.has("plans")) {
 
-                JSONArray array = jsonObject.getJSONArray("locations");
+                JSONArray array = jsonObject.getJSONArray("plans");
 
                 for (int i = 0; i < array.length(); i++) {
 
@@ -70,6 +73,8 @@ public class PlanRepository {
 
                     if (arrayObj.has("name"))
                         plan.setPlanName(arrayObj.getString("name"));
+
+                    Log.d(TAG, "Inserting plan with id: " + plan.getPlanId());
 
                     insert(plan);
                 }
