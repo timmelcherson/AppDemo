@@ -22,6 +22,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.agile.appdemo.R;
+import com.agile.appdemo.utils.Constants;
 import com.linroid.filtermenu.library.FilterMenu;
 import com.linroid.filtermenu.library.FilterMenuLayout;
 
@@ -31,7 +32,6 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.agile.appdemo.animationutils.CustomAnimations.fadeInView;
-import static com.agile.appdemo.utils.Constants.MARKER_INFO_DIALOG_EXTRA_UUID;
 import static com.agile.appdemo.utils.Constants.MARKER_INFO_DIALOG_TAG;
 import static com.agile.appdemo.utils.Constants.OVERLAY_DIALOG_EXTRA_IMAGE_HEIGHT;
 import static com.agile.appdemo.utils.Constants.OVERLAY_DIALOG_EXTRA_IMAGE_WIDTH;
@@ -52,6 +52,9 @@ public class AddMarkerDialog extends DialogFragment implements View.OnClickListe
     private HashMap<UUID, List<Integer>> mMarkerCoordinatesMap = new HashMap<>();
     private List<Integer> mMarkerCoordinates;
     private FilterMenuLayout mPickerMenuLayout;
+
+    private FragmentTransaction ft;
+    private MarkerInfoDialog dialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -190,7 +193,7 @@ public class AddMarkerDialog extends DialogFragment implements View.OnClickListe
                 marker.setImageResource(R.drawable.image_marker_green_cross);
                 break;
         }
-        
+
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mMarkerRadius, mMarkerRadius);
         int startMargin = xCoord - (mMarkerRadius / 2);
         int topMargin = yCoord - (mMarkerRadius / 2);
@@ -209,25 +212,22 @@ public class AddMarkerDialog extends DialogFragment implements View.OnClickListe
         coordinates[0] = startMargin;
         coordinates[1] = topMargin;
 
-        MarkerInfoDialog dialog = new MarkerInfoDialog();
+        dialog = new MarkerInfoDialog();
         Bundle b = new Bundle();
-        b.putString(MARKER_INFO_DIALOG_EXTRA_UUID, mMarkerId);
+        b.putString(Constants.MARKER_INFO_DIALOG_MARKER_ID, mMarkerId);
         dialog.setArguments(b);
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft = getActivity().getSupportFragmentManager().beginTransaction();
         dialog.show(ft, MARKER_INFO_DIALOG_TAG);
 
 //        mMarkerCoordinatesMap.put(uuid, mMarkerCoordinates);
 
-        marker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MarkerInfoDialog dialog = new MarkerInfoDialog();
-                Bundle b = new Bundle();
-                b.putString(MARKER_INFO_DIALOG_EXTRA_UUID, mMarkerId);
-                dialog.setArguments(b);
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                dialog.show(ft, MARKER_INFO_DIALOG_TAG);
-            }
+        marker.setOnClickListener((View v) -> {
+            MarkerInfoDialog dialog = new MarkerInfoDialog();
+            Bundle bundle = new Bundle();
+            bundle.putString(Constants.MARKER_INFO_DIALOG_MARKER_ID, mMarkerId);
+            dialog.setArguments(bundle);
+            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+            dialog.show(ft, MARKER_INFO_DIALOG_TAG);
         });
     }
 

@@ -29,7 +29,6 @@ import com.agile.appdemo.R;
 import com.agile.appdemo.utils.Constants;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.agile.appdemo.utils.Constants.MARKER_INFO_DIALOG_EXTRA_UUID;
 
 public class MarkerInfoDialog extends DialogFragment implements View.OnClickListener {
 
@@ -57,10 +56,9 @@ public class MarkerInfoDialog extends DialogFragment implements View.OnClickList
 
         Bundle b = getArguments();
         if (b != null) {
-            if (b.containsKey(MARKER_INFO_DIALOG_EXTRA_UUID))
-                markerUUID = b.getString(MARKER_INFO_DIALOG_EXTRA_UUID);
+            if (b.containsKey(Constants.MARKER_INFO_DIALOG_MARKER_ID))
+                markerUUID = b.getString(Constants.MARKER_INFO_DIALOG_MARKER_ID);
         }
-        loadLocale();
     }
 
     @Override
@@ -87,12 +85,6 @@ public class MarkerInfoDialog extends DialogFragment implements View.OnClickList
         return view;
     }
 
-    private void loadLocale() {
-
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREF_FILE_KEY, MODE_PRIVATE);
-        String language = sharedPreferences.getString(Constants.SHARED_PREF_SELECTED_LANGUAGE, "en");
-        Log.d(TAG, "loadLocale: mainActivity language: " + language);
-    }
 
     @Override
     public void onStart() {
