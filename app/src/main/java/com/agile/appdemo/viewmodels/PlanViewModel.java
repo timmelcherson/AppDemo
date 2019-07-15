@@ -7,13 +7,13 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.agile.appdemo.database.RoomDatabase;
+import com.agile.appdemo.database.RoomDatabaseTwo;
 import com.agile.appdemo.database.entities.Plan;
 import com.agile.appdemo.repositories.PlanRepository;
 
 import java.util.List;
 
-import static com.agile.appdemo.planpickerpage.markeroverlaypage.MarkerOverlayActivity.TAG;
+import static com.agile.appdemo.ui.markeroverlaypage.MarkerOverlayActivity.TAG;
 
 public class PlanViewModel extends AndroidViewModel {
 
@@ -24,7 +24,7 @@ public class PlanViewModel extends AndroidViewModel {
     public PlanViewModel(Application application) {
         super(application);
         Log.d(TAG, "PlanViewModel constructed");
-        mRepository = PlanRepository.getInstance(RoomDatabase.getDatabase(application.getApplicationContext()), application.getApplicationContext());
+        mRepository = PlanRepository.getInstance(RoomDatabaseTwo.getDatabase(application.getApplicationContext()), application.getApplicationContext());
     }
 
     public Plan getPlan(int id) {

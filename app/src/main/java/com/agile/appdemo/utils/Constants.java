@@ -8,7 +8,8 @@ public class Constants {
     public static final String ADD_OVERLAY_INTENT_BLUEPRINT = "ADD_OVERLAY_INTENT_BLUEPRINT";
     public static final String ADD_OVERLAY_INTENT_HAND_DRAWING = "ADD_OVERLAY_INTENT_HAND_DRAWING";
     public static final String ADD_OVERLAY_INTENT_EMERGENCY = "ADD_OVERLAY_INTENT_EMERGENCY";
-    public static final String ADD_OVERLAY_INTENT_KEY = "ADD_OVERLAY_INTENT_KEY";
+    public static final String MARKER_OVERLAY_INTENT_IMAGE_RES = "MARKER_OVERLAY_INTENT_IMAGE_RES";
+    public static final String MARKER_OVERLAY_INTENT_PLAN_ID = "MARKER_OVERLAY_INTENT_PLAN_ID";
 
 
     /* Dialogs */

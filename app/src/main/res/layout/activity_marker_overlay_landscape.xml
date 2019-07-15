@@ -5,9 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".planpickerpage.markeroverlaypage.MarkerOverlayActivity">
+    tools:context=".ui.markeroverlaypage.MarkerOverlayActivity">
 
     <FrameLayout
+        android:id="@+id/overlay_image_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toStartOf="@+id/overlay_end_guide"
@@ -31,19 +32,36 @@
             android:id="@+id/overlay_action_add_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:background="@drawable/action_button_bg"
             android:elevation="8dp"
+            android:gravity="center"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            android:layout_margin="16dp"
-            android:gravity="center"
-            android:text="Add Point"
+            android:text="@string/add_marker_button_text"
             android:textColor="#FFF"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/overlay_action_remove_markers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/action_button_bg"
+            android:elevation="8dp"
+            android:gravity="center"
+            android:padding="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="@string/add_marker_remove_markers"
+            android:textColor="#FFF"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/overlay_action_add_point"
+            app:layout_constraintTop_toBottomOf="@+id/overlay_action_add_point" />
 
         <Button
             android:id="@+id/add_overlay_back_btn"
@@ -52,8 +70,8 @@
             android:layout_margin="16dp"
             android:background="@drawable/action_button_bg"
             android:backgroundTint="@android:color/holo_red_light"
-            android:text="Back"
             android:elevation="8dp"
+            android:text="@string/back_button_text"
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

@@ -1,4 +1,4 @@
-package com.agile.appdemo.planpickerpage;
+package com.agile.appdemo.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.agile.appdemo.database.entities.Plan;
-import com.agile.appdemo.planpickerpage.markeroverlaypage.MarkerOverlayActivity;
+import com.agile.appdemo.ui.markeroverlaypage.MarkerOverlayActivity;
 import com.agile.appdemo.R;
 import com.agile.appdemo.utils.Constants;
 import com.agile.appdemo.viewmodels.PlanViewModel;
@@ -31,6 +31,8 @@ public class PlanPickerActivity extends AppCompatActivity implements PlanPickerR
     private Button mBackButton;
 
     private List<PlanPickerCard> mItemList = new ArrayList<>();
+    private List<String> mPlanNames = new ArrayList<>();
+    private List<Plan> mPlans = new ArrayList<>();
     private PlanViewModel mPlanViewModel;
 
     @Override
@@ -50,8 +52,11 @@ public class PlanPickerActivity extends AppCompatActivity implements PlanPickerR
 
         mPlanViewModel = ViewModelProviders.of(this).get(PlanViewModel.class);
         mPlanViewModel.observablePlanList().observe(this, (List<Plan> plans) -> {
+
+            mPlans = plans;
+
             for (Plan plan : plans)
-                Log.d(TAG, "onCreate: OBSERVE PLAN: " + plan.getPlanName());
+                mPlanNames.add(plan.getPlanName());
         });
 
         buildRecyclerView();
@@ -61,7 +66,7 @@ public class PlanPickerActivity extends AppCompatActivity implements PlanPickerR
     private void buildRecyclerView() {
         LinearLayoutManager lm = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(lm);
-        PlanPickerRecyclerAdapter adapter = new PlanPickerRecyclerAdapter(mItemList, this);
+        PlanPickerRecyclerAdapter adapter = new PlanPickerRecyclerAdapter(mItemList, mPlanNames, this);
         mRecyclerView.setAdapter(adapter);
     }
 
@@ -80,7 +85,8 @@ public class PlanPickerActivity extends AppCompatActivity implements PlanPickerR
     public void onItemClick(int position) {
 
         Intent intent = new Intent(this, MarkerOverlayActivity.class);
-        intent.putExtra(Constants.ADD_OVERLAY_INTENT_KEY, mItemList.get(position).getImageResource());
+        intent.putExtra(Constants.MARKER_OVERLAY_INTENT_IMAGE_RES, mItemList.get(position).getImageResource());
+        intent.putExtra(Constants.MARKER_OVERLAY_INTENT_PLAN_ID, mPlans.get(position).getPlanId());
         Log.d(TAG, "sending int: " + mItemList.get(position).getImageResource());
         startActivity(intent);
 

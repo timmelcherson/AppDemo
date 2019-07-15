@@ -17,20 +17,20 @@ import com.agile.appdemo.database.entities.Plan;
 
 @Database(entities = {CustomMarker.class, Plan.class}, version = 1, exportSchema = false)
 @TypeConverters(Converters.class)
-public abstract class RoomDatabase extends androidx.room.RoomDatabase {
+public abstract class RoomDatabaseTwo extends androidx.room.RoomDatabase {
 
     public abstract CustomMarkerDao CustomMarkerDao();
     public abstract PlanDao PlanDao();
 
-    private static volatile RoomDatabase INSTANCE;
+    private static volatile RoomDatabaseTwo INSTANCE;
     private static final String TAG = "TAG";
 
-    public static RoomDatabase getDatabase(final Context context) {
+    public static RoomDatabaseTwo getDatabase(final Context context) {
         if (INSTANCE == null) {
-            synchronized (RoomDatabase.class) {
+            synchronized (RoomDatabaseTwo.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            RoomDatabase.class, "Database")
+                            RoomDatabaseTwo.class, "RoomDatabase")
                             .allowMainThreadQueries()
                             .fallbackToDestructiveMigration()
                             .addCallback(sDatabaseCallback)
@@ -43,8 +43,8 @@ public abstract class RoomDatabase extends androidx.room.RoomDatabase {
         return INSTANCE;
     }
 
-    private static androidx.room.RoomDatabase.Callback sDatabaseCallback =
-            new androidx.room.RoomDatabase.Callback() {
+    private static Callback sDatabaseCallback =
+            new Callback() {
                 @Override
                 public void onCreate(@NonNull SupportSQLiteDatabase db) {
                     super.onCreate(db);

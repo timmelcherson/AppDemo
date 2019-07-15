@@ -1,7 +1,6 @@
-package com.agile.appdemo.planpickerpage.markeroverlaypage;
+package com.agile.appdemo.ui.markeroverlaypage;
 
 import android.app.Dialog;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -27,8 +26,6 @@ import androidx.fragment.app.DialogFragment;
 
 import com.agile.appdemo.R;
 import com.agile.appdemo.utils.Constants;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class MarkerInfoDialog extends DialogFragment implements View.OnClickListener {
 

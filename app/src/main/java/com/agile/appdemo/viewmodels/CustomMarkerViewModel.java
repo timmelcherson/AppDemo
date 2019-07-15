@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.agile.appdemo.database.RoomDatabase;
+import com.agile.appdemo.database.RoomDatabaseTwo;
 import com.agile.appdemo.database.entities.CustomMarker;
 import com.agile.appdemo.repositories.CustomMarkerRepository;
 
@@ -19,7 +19,7 @@ public class CustomMarkerViewModel extends AndroidViewModel {
 
     public CustomMarkerViewModel(Application application) {
         super(application);
-        mRepository = CustomMarkerRepository.getInstance(RoomDatabase.getDatabase(application.getApplicationContext()), application.getApplicationContext());
+        mRepository = CustomMarkerRepository.getInstance(RoomDatabaseTwo.getDatabase(application.getApplicationContext()), application.getApplicationContext());
     }
 
     public CustomMarker getCustomMarker(String id) {

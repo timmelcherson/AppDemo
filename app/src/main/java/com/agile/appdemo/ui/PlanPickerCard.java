@@ -1,4 +1,4 @@
-package com.agile.appdemo.planpickerpage;
+package com.agile.appdemo.ui;
 
 public class PlanPickerCard {
 

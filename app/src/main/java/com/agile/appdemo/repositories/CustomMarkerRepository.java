@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
-import com.agile.appdemo.database.RoomDatabase;
+import com.agile.appdemo.database.RoomDatabaseTwo;
 import com.agile.appdemo.database.dao.CustomMarkerDao;
 import com.agile.appdemo.database.entities.CustomMarker;
 
@@ -14,12 +14,12 @@ import java.util.List;
 public class CustomMarkerRepository {
 
     private static CustomMarkerRepository mInstance;
-    private static RoomDatabase mDatabase;
+    private static RoomDatabaseTwo mDatabase;
     private static CustomMarkerDao mCustomMarkerDao;
 
     private Context mContext;
 
-    public static CustomMarkerRepository getInstance(final RoomDatabase database, Context context) {
+    public static CustomMarkerRepository getInstance(final RoomDatabaseTwo database, Context context) {
 
         if (mInstance == null) {
             synchronized (CustomMarkerRepository.class) {
@@ -31,7 +31,7 @@ public class CustomMarkerRepository {
         return mInstance;
     }
 
-    private CustomMarkerRepository(final RoomDatabase database, Context context) {
+    private CustomMarkerRepository(final RoomDatabaseTwo database, Context context) {
         mContext = context;
         mDatabase = database;
         mCustomMarkerDao = mDatabase.CustomMarkerDao();

@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.agile.appdemo.planpickerpage.PlanPickerActivity;
+import com.agile.appdemo.ui.PlanPickerActivity;
 import com.agile.appdemo.utils.Constants;
 import com.linroid.filtermenu.library.FilterMenu;
 import com.linroid.filtermenu.library.FilterMenuLayout;

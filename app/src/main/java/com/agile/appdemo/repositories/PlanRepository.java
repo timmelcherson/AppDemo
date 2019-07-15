@@ -6,7 +6,7 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
-import com.agile.appdemo.database.RoomDatabase;
+import com.agile.appdemo.database.RoomDatabaseTwo;
 import com.agile.appdemo.database.dao.PlanDao;
 import com.agile.appdemo.database.entities.Plan;
 import com.agile.appdemo.utils.JsonParser;
@@ -21,12 +21,12 @@ public class PlanRepository {
 
     public static final String TAG = "TAG";
     private static PlanRepository mInstance;
-    private static RoomDatabase mDatabase;
+    private static RoomDatabaseTwo mDatabase;
     private static PlanDao mPlanDao;
 
     private Context mContext;
 
-    public static PlanRepository getInstance(final RoomDatabase database, Context context) {
+    public static PlanRepository getInstance(final RoomDatabaseTwo database, Context context) {
 
         if (mInstance == null) {
             synchronized (PlanRepository.class) {
@@ -38,7 +38,7 @@ public class PlanRepository {
         return mInstance;
     }
 
-    private PlanRepository(final RoomDatabase database, Context context) {
+    private PlanRepository(final RoomDatabaseTwo database, Context context) {
         mContext = context;
         mDatabase = database;
         mPlanDao = mDatabase.PlanDao();

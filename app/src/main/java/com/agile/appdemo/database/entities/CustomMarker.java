@@ -24,11 +24,14 @@ public class CustomMarker {
     @ColumnInfo(name = "plan_id")
     private int planId;
 
+    @ColumnInfo(name = "custom_marker_image_res")
+    private int mImageResourceId;
+
     @ColumnInfo(name = "custom_marker_xcoord")
-    private int markerXCoord;
+    private double markerXCoord;
 
     @ColumnInfo(name = "custom_marker_ycoord")
-    private int markerYCoord;
+    private double markerYCoord;
 
     @NonNull
     public String getMarkerId() {
@@ -47,19 +50,27 @@ public class CustomMarker {
         this.planId = planId;
     }
 
-    public int getMarkerXCoord() {
+    public int getImageResourceId() {
+        return mImageResourceId;
+    }
+
+    public void setImageResourceId(int mImageResourceId) {
+        this.mImageResourceId = mImageResourceId;
+    }
+
+    public double getMarkerXCoord() {
         return markerXCoord;
     }
 
-    public void setMarkerXCoord(int markerXCoord) {
+    public void setMarkerXCoord(double markerXCoord) {
         this.markerXCoord = markerXCoord;
     }
 
-    public int getMarkerYCoord() {
+    public double getMarkerYCoord() {
         return markerYCoord;
     }
 
-    public void setMarkerYCoord(int markerYCoord) {
+    public void setMarkerYCoord(double markerYCoord) {
         this.markerYCoord = markerYCoord;
     }
 }

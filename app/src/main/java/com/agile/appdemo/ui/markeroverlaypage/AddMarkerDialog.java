@@ -1,4 +1,4 @@
-package com.agile.appdemo.planpickerpage.markeroverlaypage;
+package com.agile.appdemo.ui.markeroverlaypage;
 
 import android.app.Dialog;
 import android.content.res.Configuration;
@@ -20,12 +20,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.agile.appdemo.R;
+import com.agile.appdemo.database.entities.CustomMarker;
 import com.agile.appdemo.utils.Constants;
+import com.agile.appdemo.utils.CustomMarkerUtils;
+import com.agile.appdemo.viewmodels.CustomMarkerViewModel;
 import com.linroid.filtermenu.library.FilterMenu;
 import com.linroid.filtermenu.library.FilterMenuLayout;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,19 +48,16 @@ public class AddMarkerDialog extends DialogFragment implements View.OnClickListe
 
     private int mImageWidth, mImageHeight, mScreenOrientation, xCoord, yCoord;
     private int mMarkerRadius = 40;
-    private UUID uuid;
     private String mMarkerId;
-    private ImageView marker;
     private FrameLayout mImageOverlay;
-    private ImageView mCloseDialogButton;
-    private TextView mInitialMessage;
-    private Button mSaveButton;
-    private HashMap<UUID, List<Integer>> mMarkerCoordinatesMap = new HashMap<>();
-    private List<Integer> mMarkerCoordinates;
+    private HashMap<String, double[]> mMarkerMap = new HashMap<>();
     private FilterMenuLayout mPickerMenuLayout;
 
-    private FragmentTransaction ft;
-    private MarkerInfoDialog dialog;
+    private MarkerInfoDialog mDialog;
+
+    private CustomMarkerViewModel mCustomMarkerViewModel;
+    private List<ImageView> mMarkerImageViews = new ArrayList<>();
+    private List<CustomMarker> mMarkers = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,8 @@ public class AddMarkerDialog extends DialogFragment implements View.OnClickListe
             if (b.containsKey(OVERLAY_DIALOG_EXTRA_IMAGE_HEIGHT))
                 mImageHeight = b.getInt(OVERLAY_DIALOG_EXTRA_IMAGE_HEIGHT);
         }
+
+        mCustomMarkerViewModel = ViewModelProviders.of(this).get(CustomMarkerViewModel.class);
     }
 
     @Override
@@ -90,8 +95,8 @@ public class AddMarkerDialog extends DialogFragment implements View.OnClickListe
     }
 
     private void initializeViews(View view) {
-        mCloseDialogButton = view.findViewById(R.id.overlay_dialog_close);
-        mSaveButton = view.findViewById(R.id.overlay_save_button);
+        ImageView closeDialogButton = view.findViewById(R.id.overlay_dialog_close);
+        Button saveButton = view.findViewById(R.id.overlay_save_button);
         /*mInitialMessage = view.findViewById(R.id.overlay_initial_message);
         Log.d(TAG, "initializeViews: start fade in");
         mInitialMessage.startAnimation(new AlphaAnimation(0.0f, 1.0f));
@@ -116,8 +121,8 @@ public class AddMarkerDialog extends DialogFragment implements View.OnClickListe
                 .withListener(this)
                 .build();
 
-        mSaveButton.setOnClickListener(this);
-        mCloseDialogButton.setOnClickListener(this);
+        saveButton.setOnClickListener(this);
+        closeDialogButton.setOnClickListener(this);
 
         mImageOverlay.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -125,7 +130,7 @@ public class AddMarkerDialog extends DialogFragment implements View.OnClickListe
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     xCoord = (int) event.getX();
                     yCoord = (int) event.getY();
-                    Log.d(TAG, "onTouch: xCoord: " + xCoord);
+                    Log.d(TAG, "onTouch: xcoord with no int cast: " + event.getX());
                     fadeInView(mPickerMenuLayout);
                     pickerMenu.expand(true);
                     mPickerMenuLayout.bringToFront();
@@ -162,7 +167,7 @@ public class AddMarkerDialog extends DialogFragment implements View.OnClickListe
                 break;
 
             case R.id.overlay_save_button:
-                Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
+                onSaveMarkers();
                 dismiss();
                 break;
         }
@@ -171,66 +176,130 @@ public class AddMarkerDialog extends DialogFragment implements View.OnClickListe
     @Override
     public void onMenuItemClick(View view, int position) {
 
-        marker = new ImageView(getActivity());
+        ImageView markerImage = new ImageView(getActivity());
+        int drawableId = 0;
 
         switch (position) {
             case 0:
-                marker.setImageResource(R.drawable.image_marker_red_blank);
+                drawableId = R.drawable.image_marker_red_blank;
+                markerImage.setImageResource(drawableId);
                 break;
             case 1:
-                marker.setImageResource(R.drawable.image_marker_red_cross);
+                drawableId = R.drawable.image_marker_red_cross;
+                markerImage.setImageResource(drawableId);
                 break;
             case 2:
-                marker.setImageResource(R.drawable.image_marker_blue_blank);
+                drawableId = R.drawable.image_marker_blue_blank;
+                markerImage.setImageResource(drawableId);
                 break;
             case 3:
-                marker.setImageResource(R.drawable.image_marker_blue_cross);
+                drawableId = R.drawable.image_marker_blue_cross;
+                markerImage.setImageResource(drawableId);
                 break;
             case 4:
-                marker.setImageResource(R.drawable.image_marker_green_blank);
+                drawableId = R.drawable.image_marker_green_blank;
+                markerImage.setImageResource(drawableId);
                 break;
             case 5:
-                marker.setImageResource(R.drawable.image_marker_green_cross);
+                drawableId = R.drawable.image_marker_green_cross;
+                markerImage.setImageResource(drawableId);
                 break;
         }
 
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mMarkerRadius, mMarkerRadius);
-        int startMargin = xCoord - (mMarkerRadius / 2);
-        int topMargin = yCoord - (mMarkerRadius / 2);
-        mMarkerCoordinates = new ArrayList<>();
-        mMarkerCoordinates.add(startMargin);
-        mMarkerCoordinates.add(topMargin);
-        params.setMarginStart(startMargin);
-        params.topMargin = topMargin;
+        mMarkerImageViews.add(markerImage);
 
-        mImageOverlay.addView(marker, params);
+        Log.d(TAG, "CHECK FOR ID, markerImage.getId(): " + markerImage.getId() + " AND ACTUAL DRAWABLE ID: " + R.drawable.image_marker_blue_cross);
 
+//        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mMarkerRadius, mMarkerRadius);
+//        int startMargin = xCoord - (mMarkerRadius / 2);
+//        int topMargin = yCoord - (mMarkerRadius / 2);
+//
+//        params.setMarginStart(startMargin);
+//        params.topMargin = topMargin;
+//
+//        mImageOverlay.addView(markerImage, params);
+
+
+//        double[] distanceFractions = new double[2];
+//        distanceFractions[0] = xCoord - (int)(CustomMarkerUtils.mMarkerRadius / 2);
+//        distanceFractions[1] = yCoord - (int)(CustomMarkerUtils.mMarkerRadius / 2);
+//        distanceFractions[0] = round(xCoord - (int)(CustomMarkerUtils.mMarkerRadius / 2) / (double) mImageWidth, 2);
+//        distanceFractions[1] = round(yCoord - (int)(CustomMarkerUtils.mMarkerRadius / 2) / (double) mImageHeight, 2);
         mMarkerId = UUID.randomUUID().toString();
-        marker.setTag(mMarkerId);
 
-        int[] coordinates = new int[2];
-        coordinates[0] = startMargin;
-        coordinates[1] = topMargin;
+        CustomMarker customMarker = new CustomMarker();
+        customMarker.setMarkerId(mMarkerId);
+        customMarker.setPlanId(MarkerOverlayActivity.mPlanId);
+        customMarker.setMarkerXCoord(round((xCoord - (mMarkerRadius / 2)) / (double) mImageWidth, 4));
+        customMarker.setMarkerYCoord(round((yCoord - (mMarkerRadius / 2)) / (double) mImageHeight, 4));
+        customMarker.setImageResourceId(drawableId);
+        Log.d(TAG, "onMenuItemClick: MARKER STARTMARGIN: " + (xCoord - (mMarkerRadius / 2)));
+        Log.d(TAG, "Saving new marker with xcoord: " + customMarker.getMarkerXCoord() + " and planid: " + customMarker.getPlanId());
+        mMarkers.add(customMarker);
 
-        dialog = new MarkerInfoDialog();
+//        CustomMarkerUtils.addCustomMarkerToFrameLayout(mImageOverlay, xCoord, yCoord, markerImage);
+        CustomMarkerUtils.addCustomMarkerToFrameLayout(mImageOverlay, customMarker, markerImage);
+
+        mDialog = new MarkerInfoDialog();
         Bundle b = new Bundle();
         b.putString(Constants.MARKER_INFO_DIALOG_MARKER_ID, mMarkerId);
-        dialog.setArguments(b);
-        ft = getActivity().getSupportFragmentManager().beginTransaction();
-        dialog.show(ft, MARKER_INFO_DIALOG_TAG);
+        mDialog.setArguments(b);
+        FragmentTransaction fragmentTransactionOne = getActivity().getSupportFragmentManager().beginTransaction();
+        mDialog.show(fragmentTransactionOne, MARKER_INFO_DIALOG_TAG);
 
-//        mMarkerCoordinatesMap.put(uuid, mMarkerCoordinates);
+//        mMarkerMap.put(mMarkerId, distanceFractions);
 
-        marker.setOnClickListener((View v) -> {
+        markerImage.setOnClickListener((View v) -> {
             MarkerInfoDialog dialog = new MarkerInfoDialog();
             Bundle bundle = new Bundle();
             bundle.putString(Constants.MARKER_INFO_DIALOG_MARKER_ID, mMarkerId);
             dialog.setArguments(bundle);
-            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-            dialog.show(ft, MARKER_INFO_DIALOG_TAG);
+            FragmentTransaction fragmentTransactionTwo = getActivity().getSupportFragmentManager().beginTransaction();
+            dialog.show(fragmentTransactionTwo, MARKER_INFO_DIALOG_TAG);
         });
     }
 
+    private void addCustomMarkerToFrameLayout(FrameLayout frameLayout, CustomMarker customMarker, ImageView markerImage) {
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mMarkerRadius, mMarkerRadius);
+        Log.d(TAG, "addCustomMarkerToFrameLayout: marker xcoord: " + customMarker.getMarkerXCoord());
+        Log.d(TAG, "addCustomMarkerToFrameLayout: framelayout width: " + frameLayout.getWidth());
+        int startMargin = (int) (frameLayout.getWidth() * customMarker.getMarkerXCoord());
+        int topMargin = (int) (frameLayout.getHeight() * customMarker.getMarkerYCoord());
+        Log.d(TAG, "addCustomMarkerToFrameLayout: startmargin: " + startMargin + " and topmargin: " + topMargin);
+        params.setMarginStart(startMargin);
+        params.topMargin = topMargin;
+        Log.d(TAG, "addCustomMarkerToFrameLayout: adding imageview for marker with id: " + customMarker.getMarkerId());
+        frameLayout.addView(markerImage, params);
+    }
+
+    private void onSaveMarkers() {
+
+//        for (String key : mMarkerMap.keySet()) {
+//            CustomMarker customMarker = new CustomMarker();
+//            customMarker.setMarkerId(key);
+//            customMarker.setMarkerXCoord(mMarkerMap.get(key)[0]);
+//            customMarker.setMarkerYCoord(mMarkerMap.get(key)[1]);
+//
+//            Log.d(TAG, "gonna save marker: " + customMarker + " with id: " + customMarker.getMarkerId()
+//                    + " and distanceFractions: (" + customMarker.getMarkerXCoord() + ", " + customMarker.getMarkerYCoord() + ")");
+//        }
+
+        Log.d(TAG, "onSaveMarkers: init");
+        for (CustomMarker marker : mMarkers) {
+            mCustomMarkerViewModel.insert(marker);
+            Log.d(TAG, "onSaveMarkers: saving marker with id: " + marker.getMarkerId() + " to database");
+        }
+        Log.d(TAG, "onSaveMarkers: clearing");
+        mMarkers.clear();
+    }
+
+    private static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(Double.toString(value));
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
 
     @Override
     public void onMenuCollapse() {

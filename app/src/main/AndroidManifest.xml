@@ -9,9 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".planpickerpage.markeroverlaypage.MarkerOverlayActivity" />
+        <activity android:name=".ui.markeroverlaypage.MarkerOverlayActivity" />
         <activity
-            android:name=".planpickerpage.PlanPickerActivity"
+            android:name=".ui.PlanPickerActivity"
             android:theme="@style/AppTheme.Transparent" />
         <activity
             android:name=".MainActivity"

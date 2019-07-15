@@ -1,4 +1,4 @@
-package com.agile.appdemo.planpickerpage;
+package com.agile.appdemo.ui;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,14 +17,16 @@ import java.util.List;
 public class PlanPickerRecyclerAdapter extends RecyclerView.Adapter<PlanPickerRecyclerAdapter.ViewHolder> {
 
     private List<PlanPickerCard> mImageList;
+    private List<String> mPlanNames;
     private OnImageItemsItemListener onImageItemsItemListener;
 
     public static final String TAG = "TAG";
 
 
     // Constructor
-    public PlanPickerRecyclerAdapter(List<PlanPickerCard> imageList, OnImageItemsItemListener onImageItemsItemListener) {
+    public PlanPickerRecyclerAdapter(List<PlanPickerCard> imageList, List<String> planNames, OnImageItemsItemListener onImageItemsItemListener) {
         this.mImageList = imageList;
+        this.mPlanNames = planNames;
         this.onImageItemsItemListener = onImageItemsItemListener;
     }
 

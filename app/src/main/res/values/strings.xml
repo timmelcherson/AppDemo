@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Demo App</string>
 
-    <string name="picker_item_title_1">Example Entry 1</string>
-    <string name="picker_item_title_2">Example Entry 2</string>
-    <string name="picker_item_title_3">Example Entry 3</string>
+    <string name="picker_item_title_1" translatable="false">Blueprint abc-123</string>
+    <string name="picker_item_title_2" translatable="false">Floor Plan abc-123</string>
+    <string name="picker_item_title_3" translatable="false">Emergency Plan abc-123</string>
 
     <string name="overlay_dialog_initial_message">Click on image to add point</string>
     <string name="overlay_dialog_save_button_text">Save</string>
@@ -42,4 +42,10 @@
 
     <string name="marker_info_sample_taken_title">Sample taken</string>
     <string name="marker_info_sample_number_title">Sample number:</string>
+
+
+    <!-- Marker Overlay Activity -->
+    <string name="add_marker_button_text">Add Marker</string>
+    <string name="add_marker_remove_markers">Remove Markers</string>
+    <string name="back_button_text">Back</string>
 </resources>
